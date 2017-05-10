@@ -1,3 +1,4 @@
+using bdeliv_services.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace bdeliv_services.Persistence
@@ -8,5 +9,7 @@ namespace bdeliv_services.Persistence
         {
 
         }
+
+        public DbSet<Category> Categories { get; set; }
     }
 }

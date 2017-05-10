@@ -1,21 +1,30 @@
 using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace bdeliv_services.Models
 {
+    [Table("Products")]
     public class Product
     {
         public int Id { get; set; }
 
         public bool Status { get; set; }
 
+        [Required]
+        [StringLength(128)]
         public string Reference { get; set; }
 
+        [Required]
+        [StringLength(128)]
         public string Name { get; set; }
 
+        [StringLength(128)]
         public string Origin { get; set; }
 
         public decimal Weight { get; set; }
 
+        [StringLength(32)]
         public string Measure { get; set; }
 
         public int Quantity { get; set; }
@@ -24,6 +33,7 @@ namespace bdeliv_services.Models
 
         public decimal Tax { get; set; }
 
+        [StringLength(128)]
         public string ImgName { get; set; }
 
         public DateTime CreatedAt { get; set; }
