@@ -11,6 +11,8 @@ namespace bdeliv_services.Models
 
         public bool IsAdmin { get; set; }
 
+        public bool IsDelivery { get; set; }
+        
         [StringLength(8)]
         public string Gender { get; set; }
 
