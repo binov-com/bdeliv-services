@@ -10,6 +10,7 @@ namespace bdeliv_services.Mapping
         {
             CreateMap<Category, CategoryResource>();
             CreateMap<Product, ProductResource>();
+            CreateMap<User, UserResource>();
         }
     }
 }
