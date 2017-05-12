@@ -1,3 +1,37 @@
-<p>
-  product-form works!
-</p>
+<h1></h1>
+
+<div class="col-lg-6">
+  <div class="well bs-component">
+    <form class="form-horizontal">
+      <fieldset>
+
+        <legend>Nouveau Produit</legend>
+
+        <div class="form-group">
+          <label for="categorie" class="col-lg-2 control-label">Catégorie</label>
+          <div class="col-lg-10">
+            <select id="categorie" class="form-control" >
+              <option value=""></option>
+              <option *ngFor="let c of categories" value="{{ c.Id }}">{{ c.name }}</option>
+            </select>
+          </div>
+        </div>  
+
+        <div class="form-group">
+          <label for="reference" class="col-lg-2 control-label">Référence</label>
+          <div class="col-lg-10">
+            <input id="reference" type="text" class="form-control" placeholder="Référence du produit">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-lg-10 col-lg-offset-2">
+            <button type="reset" class="btn btn-default">Annuler</button>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+          </div>
+        </div>
+
+      </fieldset>
+    </form>
+  </div>
+</div>
