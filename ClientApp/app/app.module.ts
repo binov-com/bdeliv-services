@@ -7,6 +7,7 @@ import { HomeComponent } from './components/home/home.component';
 import { FetchDataComponent } from './components/fetchdata/fetchdata.component';
 import { CounterComponent } from './components/counter/counter.component';
 import { ProductFormComponent } from './components/product-form/product-form.component';
+import { CategorieService } from "./services/categorie.service";
 
 @NgModule({
     bootstrap: [ AppComponent ],
@@ -28,6 +29,9 @@ import { ProductFormComponent } from './components/product-form/product-form.com
             { path: 'fetch-data', component: FetchDataComponent },
             { path: '**', redirectTo: 'home' }
         ])
+    ],
+    providers: [
+        CategorieService
     ]
 })
 export class AppModule {
