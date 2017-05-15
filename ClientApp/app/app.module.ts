@@ -13,8 +13,7 @@ import { CounterComponent } from './components/counter/counter.component';
 import { ProductFormComponent } from './components/product-form/product-form.component';
 
 // Services //
-import { CategorieService } from "./services/categorie.service";
-import { UserService } from "./services/user.service";
+import { ProductService } from "./services/product.service";
 
 @NgModule({
     bootstrap: [ AppComponent ],
@@ -39,8 +38,7 @@ import { UserService } from "./services/user.service";
         ])
     ],
     providers: [
-        CategorieService, 
-        UserService
+        ProductService, 
     ]
 })
 export class AppModule {

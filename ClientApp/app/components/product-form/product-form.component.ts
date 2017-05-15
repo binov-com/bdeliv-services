@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CategorieService } from "../../services/categorie.service";
-import { UserService } from "../../services/user.service";
+import { ProductService } from "../../services/product.service";
 
 @Component({
   selector: 'app-product-form',
@@ -14,17 +13,14 @@ export class ProductFormComponent implements OnInit {
 
   product: any = {};
   
-  constructor(
-    private categorieService: CategorieService,
-    private userService: UserService
-    ) { }
+  constructor(private productService: ProductService) { }
 
   ngOnInit() {
-    this.categorieService.getCategories().subscribe(
+    this.productService.getCategories().subscribe(
       categories => this.categories = categories
     );
 
-    this.userService.getUsers().subscribe(
+    this.productService.getUsers().subscribe(
       users => this.users = users
     );
   }

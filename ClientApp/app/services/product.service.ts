@@ -3,12 +3,16 @@ import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 
 @Injectable()
-export class CategorieService {
+export class ProductService {
 
   constructor(private http: Http) { }
 
   getCategories() {
     return this.http.get('api/categories')
       .map(res => res.json());
+  }
+
+  getUsers() {
+    return this.http.get('api/users').map(res => res.json());
   }
 }
