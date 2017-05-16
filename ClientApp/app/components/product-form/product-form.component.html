@@ -35,6 +35,13 @@
         </div>
 
         <div class="form-group">
+          <label for="name" class="col-lg-2 control-label">Nom</label>
+          <div class="col-lg-10">
+            <input id="name" type="text" class="form-control" placeholder="Nom du produit">
+          </div>
+        </div>
+
+        <div class="form-group">
           <div class="col-lg-10 col-lg-offset-2">
             <button type="reset" class="btn btn-default">Annuler</button>
             <button type="submit" class="btn btn-primary">Enregistrer</button>
@@ -48,6 +55,14 @@
             <input type="checkbox" id="{{ u.id }}">{{ u.firstName }}
           </label>
         </div>
+
+        <h2>Is this user Admin ?</h2>
+        <label for="isAdmin" class="radio-inline">
+          <input name="admin" id="isAdmin" type="radio" value="true"> Yes
+        </label>
+        <label for="isNotAdmin" class="radio-inline">
+          <input name="admin" id="isNotAdmin" type="radio" value="false"> No
+        </label>
 
       </fieldset>
     </form>
