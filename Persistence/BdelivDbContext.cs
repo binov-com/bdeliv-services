@@ -12,5 +12,7 @@ namespace bdeliv_services.Persistence
 
         public DbSet<Category> Categories { get; set; }
         public DbSet<User> Users { get; set; }
+
+        public DbSet<Company> Companies { get; set; }
     }
 }
