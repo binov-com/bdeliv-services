@@ -8,9 +8,10 @@ using bdeliv_services.Persistence;
 namespace BdelivServices.Migrations
 {
     [DbContext(typeof(BdelivDbContext))]
-    partial class BdelivDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170516113358_TableAddCompaniesAndClients")]
+    partial class TableAddCompaniesAndClients
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")

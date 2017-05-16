@@ -34,11 +34,11 @@ namespace bdeliv_services.Models
 
         public DateTime UpdatedAt { get; set; }
 
-        public ICollection<Company> Companies { get; set; }
+        public ICollection<Client> Clients { get; set; }
 
         public Company()
         {
-            Companies = new Collection<Company>();
+            Clients = new Collection<Client>();
         }
 
     }
