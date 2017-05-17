@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace bdeliv_services.Controllers.Resources
 {
+
     public class ProductResource
     {
         public int Id { get; set; }
@@ -24,10 +27,12 @@ namespace bdeliv_services.Controllers.Resources
 
         public decimal Tax { get; set; }
 
-        public string ImgName { get; set; }
+        public ICollection<int> Tags { get; set; }
 
-        public DateTime CreatedAt { get; set; }
+        public ProductResource()
+        {
+            Tags = new Collection<int>();
+        }
 
-        public DateTime UpdatedAt { get; set; }
     }
 }
