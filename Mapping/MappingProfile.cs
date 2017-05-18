@@ -13,6 +13,8 @@ namespace bdeliv_services.Mapping
             CreateMap<Category, CategoryResource>();
             CreateMap<Product, ProductResource>();
             CreateMap<User, UserResource>();    
+            CreateMap<Product, ProductResource>()
+                .ForMember(pr => pr.Tags, opt => opt.MapFrom(p => p.Tags.Select(pt => pt.TagId)));
 
             // API Resource to Domain
             CreateMap<ProductResource, Product>()
