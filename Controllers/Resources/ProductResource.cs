@@ -9,6 +9,8 @@ namespace bdeliv_services.Controllers.Resources
     {
         public int Id { get; set; }
 
+        public int CategoryId { get; set; }
+
         public bool Status { get; set; }
 
         public string Reference { get; set; }
