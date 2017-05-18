@@ -22,6 +22,16 @@ namespace bdeliv_services.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateProduct([FromBody] ProductResource productResource)
         {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var category = await context.Categories.FindAsync(productResource.CategoryId);
+            if(category == null)
+            {
+                ModelState.AddModelError("CategoryId","Invalid categoryId.");
+                return BadRequest(ModelState);
+            }
+
             var product = mapper.Map<ProductResource, Product>(productResource);
 
             // Defaults Values 

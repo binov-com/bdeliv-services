@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace bdeliv_services.Controllers.Resources
 {
@@ -13,8 +14,10 @@ namespace bdeliv_services.Controllers.Resources
 
         public bool Status { get; set; }
 
+        [Required]
         public string Reference { get; set; }
 
+        [Required]
         public string Name { get; set; }
 
         public string Origin { get; set; }
