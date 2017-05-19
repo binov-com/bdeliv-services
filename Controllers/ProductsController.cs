@@ -86,5 +86,20 @@ namespace bdeliv_services.Controllers
             return Ok(id);
 
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProduct(int id) 
+        {
+            var product = await context.Products
+                .Include(t => t.Tags)
+                .SingleOrDefaultAsync(t => t.Id == id);
+
+            if(product == null)
+                return NotFound();
+
+            var productResource = mapper.Map<Product, ProductResource>(product);
+
+            return Ok(productResource);
+        }
     }
 }
