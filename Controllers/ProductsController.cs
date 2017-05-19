@@ -57,6 +57,9 @@ namespace bdeliv_services.Controllers
             var product = await context.Products
                 .Include(p => p.Tags)
                 .SingleOrDefaultAsync(p => p.Id == id);
+
+            if(product == null)
+                return NotFound();
                 
             mapper.Map<ProductResource, Product>(productResource, product);
 
@@ -67,6 +70,21 @@ namespace bdeliv_services.Controllers
             var result = mapper.Map<Product, ProductResource>(product);
 
             return Ok(result);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            var product = await context.Products.FindAsync(id);
+
+            if(product == null)
+                return NotFound();
+
+            context.Remove(product);
+            await context.SaveChangesAsync();
+
+            return Ok(id);
+
         }
     }
 }
