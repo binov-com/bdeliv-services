@@ -22,17 +22,17 @@ namespace bdeliv_services.Mapping
                 .ForMember(p => p.Id, opt => opt.Ignore())
                 .ForMember(p => p.Tags, opt => opt.Ignore())
                 .AfterMap((pr, p) => {
-                   // Remove unselected tags
-                   var removeTags = new List<ProductTags>();
-
-                   foreach(var t in p.Tags)
-                        if(!pr.Tags.Contains(t.TagId)) removeTags.Add(t);
-
-                   foreach(var t in removeTags) p.Tags.Remove(t);
+                   
+                    // Remove unselected tags
+                    var removedTags = p.Tags.Where(t => !pr.Tags.Contains(t.TagId));
+                    foreach(var t in removedTags) 
+                        p.Tags.Remove(t);
                        
                    // Add new tags
-                   foreach(var id in pr.Tags)
-                        if(!p.Tags.Any(t => t.TagId == id)) p.Tags.Add(new ProductTags { TagId = id });
+                    var addedTags = pr.Tags.Where(id => !p.Tags.Any(t => t.TagId == id)).Select(id => new ProductTags { TagId = id });
+                    foreach(var t in addedTags)
+                        p.Tags.Add(t);
+                
                 });
                 
         }
