@@ -4,8 +4,12 @@ using System.Collections.ObjectModel;
 
 namespace bdeliv_services.Controllers.Resources
 {
-    public class ProductResource : KeyValuePairResource
+    public class ProductResource
     {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
         public bool Status { get; set; }
 
         public string Reference { get; set; }
@@ -24,7 +28,7 @@ namespace bdeliv_services.Controllers.Resources
 
         public string ImgName { get; set; }
 
-        public CategoryResource Category { get; set; }
+        public KeyValuePairResource Category { get; set; }
 
         public ICollection<KeyValuePairResource> Tags { get; set; }
 
@@ -32,5 +36,9 @@ namespace bdeliv_services.Controllers.Resources
         {
             Tags = new Collection<KeyValuePairResource>();
         }
+
+        public DateTime CreatedAt { get; set; }
+
+        public DateTime UpdatedAt { get; set; }
     }
 }
