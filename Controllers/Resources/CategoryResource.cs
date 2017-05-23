@@ -4,8 +4,12 @@ using System.Collections.ObjectModel;
 
 namespace bdeliv_services.Controllers.Resources
 {
-    public class CategoryResource : KeyValuePairResource
+    public class CategoryResource
     {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
         public bool Status { get; set; }
 
         public decimal Tax { get; set; }
@@ -20,5 +24,9 @@ namespace bdeliv_services.Controllers.Resources
         {
             Products = new Collection<ProductResource>();
         }
+
+        public DateTime CreatedAt { get; set; }
+
+        public DateTime UpdatedAt { get; set; }
     }
 }

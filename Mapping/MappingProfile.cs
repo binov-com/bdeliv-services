@@ -11,6 +11,7 @@ namespace bdeliv_services.Mapping
         public MappingProfile()
         {
             // Domain to API Resource 
+            CreateMap<Category, CategoryResource>();
             CreateMap<Category, KeyValuePairResource>();
             CreateMap<Product, SaveProductResource>();
             CreateMap<User, UserResource>();    
