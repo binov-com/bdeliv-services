@@ -1,17 +1,23 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace bdeliv_services.Controllers.Resources
 {
-    public class ProductResource
+
+    public class SaveProductResource
     {
         public int Id { get; set; }
 
+        public int CategoryId { get; set; }
+
         public bool Status { get; set; }
 
+        [Required]
         public string Reference { get; set; }
 
+        [Required]
         public string Name { get; set; }
 
         public string Origin { get; set; }
@@ -26,19 +32,12 @@ namespace bdeliv_services.Controllers.Resources
 
         public decimal Tax { get; set; }
 
-        public string ImgName { get; set; }
+        public ICollection<int> Tags { get; set; }
 
-        public DateTime CreatedAt { get; set; }
-
-        public DateTime UpdatedAt { get; set; }
-
-        public CategoryResource Category { get; set; }
-
-        public ICollection<TagResource> Tags { get; set; }
-
-        public ProductResource()
+        public SaveProductResource()
         {
-            Tags = new Collection<TagResource>();
+            Tags = new Collection<int>();
         }
+
     }
 }

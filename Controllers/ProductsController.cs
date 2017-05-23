@@ -21,7 +21,7 @@ namespace bdeliv_services.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateProduct([FromBody] ProductResource productResource)
+        public async Task<IActionResult> CreateProduct([FromBody] SaveProductResource productResource)
         {
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -33,7 +33,7 @@ namespace bdeliv_services.Controllers
             //     return BadRequest(ModelState);
             // }
 
-            var product = mapper.Map<ProductResource, Product>(productResource);
+            var product = mapper.Map<SaveProductResource, Product>(productResource);
 
             // Defaults Values 
             product.Status = true;
@@ -43,13 +43,13 @@ namespace bdeliv_services.Controllers
             context.Products.Add(product);
             await context.SaveChangesAsync();
 
-            var result = mapper.Map<Product, ProductResource>(product);
+            var result = mapper.Map<Product, SaveProductResource>(product);
 
             return Ok(result);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProduct(int id, [FromBody] ProductResource productResource)
+        public async Task<IActionResult> UpdateProduct(int id, [FromBody] SaveProductResource productResource)
         {
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -61,13 +61,13 @@ namespace bdeliv_services.Controllers
             if(product == null)
                 return NotFound();
                 
-            mapper.Map<ProductResource, Product>(productResource, product);
+            mapper.Map<SaveProductResource, Product>(productResource, product);
 
             product.UpdatedAt = DateTime.Now;
 
             await context.SaveChangesAsync();
 
-            var result = mapper.Map<Product, ProductResource>(product);
+            var result = mapper.Map<Product, SaveProductResource>(product);
 
             return Ok(result);
         }
@@ -92,6 +92,8 @@ namespace bdeliv_services.Controllers
         {
             var product = await context.Products
                 .Include(t => t.Tags)
+                    .ThenInclude(pt => pt.Tag)
+                .Include(t => t.Category)
                 .SingleOrDefaultAsync(t => t.Id == id);
 
             if(product == null)

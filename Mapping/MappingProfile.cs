@@ -12,13 +12,16 @@ namespace bdeliv_services.Mapping
         {
             // Domain to API Resource 
             CreateMap<Category, CategoryResource>();
-            CreateMap<Product, ProductResource>();
+            CreateMap<Product, SaveProductResource>();
             CreateMap<User, UserResource>();    
-            CreateMap<Product, ProductResource>()
+            CreateMap<Product, SaveProductResource>()
                 .ForMember(pr => pr.Tags, opt => opt.MapFrom(p => p.Tags.Select(pt => pt.TagId)));
 
+            CreateMap<Product, ProductResource>()
+                .ForMember(pr => pr.Tags, opt => opt.MapFrom(p => p.Tags.Select(pt => new TagResource { Id = pt.Tag.Id, Name = pt.Tag.Name })));
+
             // API Resource to Domain
-            CreateMap<ProductResource, Product>()
+            CreateMap<SaveProductResource, Product>()
                 .ForMember(p => p.Id, opt => opt.Ignore())
                 .ForMember(p => p.Tags, opt => opt.Ignore())
                 .AfterMap((pr, p) => {
