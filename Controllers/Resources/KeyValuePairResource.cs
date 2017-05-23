@@ -2,7 +2,7 @@ using System;
 
 namespace bdeliv_services.Controllers.Resources
 {
-    public class TagResource
+    public class KeyValuePairResource
     {
         public int Id { get; set; }
 
