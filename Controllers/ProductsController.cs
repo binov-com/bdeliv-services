@@ -43,7 +43,13 @@ namespace bdeliv_services.Controllers
             context.Products.Add(product);
             await context.SaveChangesAsync();
 
-            var result = mapper.Map<Product, SaveProductResource>(product);
+            product = await context.Products
+                .Include(t => t.Tags)
+                    .ThenInclude(pt => pt.Tag)
+                .Include(t => t.Category)
+                .SingleOrDefaultAsync(t => t.Id == product.Id);
+
+            var result = mapper.Map<Product, ProductResource>(product);
 
             return Ok(result);
         }
@@ -67,7 +73,13 @@ namespace bdeliv_services.Controllers
 
             await context.SaveChangesAsync();
 
-            var result = mapper.Map<Product, SaveProductResource>(product);
+            product = await context.Products
+                .Include(t => t.Tags)
+                    .ThenInclude(pt => pt.Tag)
+                .Include(t => t.Category)
+                .SingleOrDefaultAsync(t => t.Id == product.Id);
+
+            var result = mapper.Map<Product, ProductResource>(product);
 
             return Ok(result);
         }
