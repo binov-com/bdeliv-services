@@ -12,13 +12,33 @@ namespace bdeliv_services.Persistence
             this.context = context;
         }
 
-        public async Task<Product> GetProduct(int id)
+        public async Task<Product> GetProduct(int id, bool includeRelated = false)
+        {
+            if (!includeRelated)
+                return await context.Products.FindAsync(id);
+
+            return await context.Products
+                .Include(p => p.Tags)
+                    .ThenInclude(pt => pt.Tag)
+                .Include(p => p.Category)
+                .SingleOrDefaultAsync(p => p.Id == id);
+        }
+
+        public async Task<Product> GetProductWithCategory(int id) 
         {
             return await context.Products
-                .Include(t => t.Tags)
-                    .ThenInclude(pt => pt.Tag)
-                .Include(t => t.Category)
-                .SingleOrDefaultAsync(t => t.Id == id);
+                .Include(p => p.Category)
+                .SingleOrDefaultAsync(p => p.Id == id);
+        }
+
+        public void Add(Product product) 
+        {
+            context.Products.Add(product);
+        }
+
+        public void Remove(Product product)
+        {
+            context.Products.Remove(product);
         }
     }
 }

@@ -5,6 +5,8 @@ namespace bdeliv_services.Persistence
 {
     public interface IProductRepository
     {
-        Task<Product> GetProduct(int id);
+        Task<Product> GetProduct(int id, bool includeRelated = false);
+        void Add(Product product);
+        void Remove(Product product);
     }
 }

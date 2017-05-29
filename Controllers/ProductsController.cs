@@ -42,7 +42,7 @@ namespace bdeliv_services.Controllers
             product.CreatedAt = DateTime.Now;
             product.UpdatedAt = DateTime.Now;
 
-            context.Products.Add(product);
+            repository.Add(product);
             await context.SaveChangesAsync();
 
             product = await repository.GetProduct(product.Id);
@@ -81,22 +81,21 @@ namespace bdeliv_services.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
-            var product = await context.Products.FindAsync(id);
+            var product = await repository.GetProduct(id);
 
             if (product == null)
                 return NotFound();
 
-            context.Remove(product);
+            repository.Remove(product);
             await context.SaveChangesAsync();
 
             return Ok(id);
-
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProduct(int id)
         {
-            var product = await repository.GetProduct(id);
+            var product = await repository.GetProduct(id, includeRelated: true);
 
             if (product == null)
                 return NotFound();
