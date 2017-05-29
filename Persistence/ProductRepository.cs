@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace bdeliv_services.Persistence
 {
-    public class ProductRepository
+    public class ProductRepository : IProductRepository
     {
         private readonly BdelivDbContext context;
         public ProductRepository(BdelivDbContext context)

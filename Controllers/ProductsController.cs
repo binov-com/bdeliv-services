@@ -14,8 +14,10 @@ namespace bdeliv_services.Controllers
     {
         private readonly IMapper mapper;
         private readonly BdelivDbContext context;
-        public ProductsController(IMapper mapper, BdelivDbContext context)
+        private readonly IProductRepository repository;
+        public ProductsController(IMapper mapper, BdelivDbContext context, IProductRepository repository)
         {
+            this.repository = repository;
             this.context = context;
             this.mapper = mapper;
         }
@@ -23,7 +25,7 @@ namespace bdeliv_services.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateProduct([FromBody] SaveProductResource productResource)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             // var category = await context.Categories.FindAsync(productResource.CategoryId);
@@ -43,11 +45,7 @@ namespace bdeliv_services.Controllers
             context.Products.Add(product);
             await context.SaveChangesAsync();
 
-            product = await context.Products
-                .Include(t => t.Tags)
-                    .ThenInclude(pt => pt.Tag)
-                .Include(t => t.Category)
-                .SingleOrDefaultAsync(t => t.Id == product.Id);
+            product = await repository.GetProduct(product.Id);
 
             var result = mapper.Map<Product, ProductResource>(product);
 
@@ -57,27 +55,23 @@ namespace bdeliv_services.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProduct(int id, [FromBody] SaveProductResource productResource)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             var product = await context.Products
                 .Include(p => p.Tags)
                 .SingleOrDefaultAsync(p => p.Id == id);
 
-            if(product == null)
+            if (product == null)
                 return NotFound();
-                
+
             mapper.Map<SaveProductResource, Product>(productResource, product);
 
             product.UpdatedAt = DateTime.Now;
 
             await context.SaveChangesAsync();
 
-            product = await context.Products
-                .Include(t => t.Tags)
-                    .ThenInclude(pt => pt.Tag)
-                .Include(t => t.Category)
-                .SingleOrDefaultAsync(t => t.Id == product.Id);
+            product = await repository.GetProduct(product.Id);
 
             var result = mapper.Map<Product, ProductResource>(product);
 
@@ -89,7 +83,7 @@ namespace bdeliv_services.Controllers
         {
             var product = await context.Products.FindAsync(id);
 
-            if(product == null)
+            if (product == null)
                 return NotFound();
 
             context.Remove(product);
@@ -100,15 +94,11 @@ namespace bdeliv_services.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetProduct(int id) 
+        public async Task<IActionResult> GetProduct(int id)
         {
-            var product = await context.Products
-                .Include(t => t.Tags)
-                    .ThenInclude(pt => pt.Tag)
-                .Include(t => t.Category)
-                .SingleOrDefaultAsync(t => t.Id == id);
+            var product = await repository.GetProduct(id);
 
-            if(product == null)
+            if (product == null)
                 return NotFound();
 
             var productResource = mapper.Map<Product, ProductResource>(product);
