@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using bdeliv_services.Models;
 
-namespace bdeliv_services.Persistence
+namespace bdeliv_services.Core
 {
     public interface IProductRepository
     {

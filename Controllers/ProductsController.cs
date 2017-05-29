@@ -3,9 +3,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using bdeliv_services.Controllers.Resources;
 using bdeliv_services.Models;
-using bdeliv_services.Persistence;
+using bdeliv_services.Core;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace bdeliv_services.Controllers
 {
