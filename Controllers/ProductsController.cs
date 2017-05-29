@@ -13,12 +13,12 @@ namespace bdeliv_services.Controllers
     public class ProductsController : Controller
     {
         private readonly IMapper mapper;
-        private readonly BdelivDbContext context;
         private readonly IProductRepository repository;
-        public ProductsController(IMapper mapper, BdelivDbContext context, IProductRepository repository)
+        private readonly IUnitOfWork unitOfWork;
+        public ProductsController(IMapper mapper, IUnitOfWork unitOfWork, IProductRepository repository)
         {
+            this.unitOfWork = unitOfWork;
             this.repository = repository;
-            this.context = context;
             this.mapper = mapper;
         }
 
@@ -43,9 +43,9 @@ namespace bdeliv_services.Controllers
             product.UpdatedAt = DateTime.Now;
 
             repository.Add(product);
-            await context.SaveChangesAsync();
+            await unitOfWork.CompleteAsync();
 
-            product = await repository.GetProduct(product.Id);
+            product = await repository.GetProduct(product.Id, includeRelated: true);
 
             var result = mapper.Map<Product, ProductResource>(product);
 
@@ -58,9 +58,7 @@ namespace bdeliv_services.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var product = await context.Products
-                .Include(p => p.Tags)
-                .SingleOrDefaultAsync(p => p.Id == id);
+            var product = await repository.GetProduct(id, includeRelated: true);
 
             if (product == null)
                 return NotFound();
@@ -69,10 +67,9 @@ namespace bdeliv_services.Controllers
 
             product.UpdatedAt = DateTime.Now;
 
-            await context.SaveChangesAsync();
+            await unitOfWork.CompleteAsync();
 
-            product = await repository.GetProduct(product.Id);
-
+            product = await repository.GetProduct(product.Id, includeRelated: true);
             var result = mapper.Map<Product, ProductResource>(product);
 
             return Ok(result);
@@ -87,7 +84,7 @@ namespace bdeliv_services.Controllers
                 return NotFound();
 
             repository.Remove(product);
-            await context.SaveChangesAsync();
+            await unitOfWork.CompleteAsync();
 
             return Ok(id);
         }
