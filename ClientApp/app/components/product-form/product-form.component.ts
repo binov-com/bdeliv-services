@@ -25,9 +25,9 @@ export class ProductFormComponent implements OnInit {
     );
   }
 
-  onCategorieChange() {
+  onCategoryChange() {
     // console.log("PRODUCT", this.product);
-    var selectedCategorie = this.categories.find(c => c.id == this.product.categorie);
+    var selectedCategorie = this.categories.find(c => c.id == this.product.categoryId);
     this.products = selectedCategorie ? selectedCategorie.products : [];
   }
 

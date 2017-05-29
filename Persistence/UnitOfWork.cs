@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using bdeliv_services.Core;
 
 namespace bdeliv_services.Persistence
 {

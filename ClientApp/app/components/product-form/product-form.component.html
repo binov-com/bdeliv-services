@@ -1,5 +1,7 @@
 <h1></h1>
-
+<p>
+  {{ product | json }}
+</p>
 <div class="col-lg-6">
   <div class="well bs-component">
     <form class="form-horizontal">
@@ -8,15 +10,16 @@
         <legend>Nouveau Produit</legend>
 
         <div class="form-group">
-          <label for="categorie" class="col-lg-2 control-label">Catégorie</label>
+          <label for="category" class="col-lg-2 control-label">Catégorie</label>
           <div class="col-lg-10">
-            <select id="categorie" class="form-control" (change)="onCategorieChange()" [(ngModel)]="product.categorie" name="categorie">
+            <select id="category" class="form-control" (change)="onCategoryChange()" [(ngModel)]="product.categoryId" name="categoryId">
               <option value=""></option>
               <option *ngFor="let c of categories" value="{{ c.id }}">{{ c.name }}</option>
             </select>
           </div>
         </div>  
 
+        <!--
         <div class="form-group">
           <label for="product" class="col-lg-2 control-label">Produits</label>
           <div class="col-lg-10">
@@ -26,18 +29,19 @@
             </select>
           </div>
         </div> 
+        --> 
+
+        <div class="form-group">
+          <label for="name" class="col-lg-2 control-label">Nom</label>
+          <div class="col-lg-10">
+            <input id="name" type="text" class="form-control" placeholder="Nom du produit" [(ngModel)]="product.name" name="name">
+          </div>
+        </div>
 
         <div class="form-group">
           <label for="reference" class="col-lg-2 control-label">Référence</label>
           <div class="col-lg-10">
             <input id="reference" type="text" class="form-control" placeholder="Référence du produit">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="name" class="col-lg-2 control-label">Nom</label>
-          <div class="col-lg-10">
-            <input id="name" type="text" class="form-control" placeholder="Nom du produit">
           </div>
         </div>
 
@@ -58,10 +62,10 @@
 
         <h2>Is this user Admin ?</h2>
         <label for="isAdmin" class="radio-inline">
-          <input name="admin" id="isAdmin" type="radio" value="true"> Yes
+          <input name="isAdmin" id="admin" type="radio" value="true" [(ngModel)]="product.isAdmin"> Yes
         </label>
         <label for="isNotAdmin" class="radio-inline">
-          <input name="admin" id="isNotAdmin" type="radio" value="false"> No
+          <input name="isAdmin" id="notAdmin" type="radio" value="false" [(ngModel)]="product.isAdmin"> No
         </label>
 
       </fieldset>
