@@ -4,7 +4,7 @@
 </p>
 <div class="col-lg-6">
   <div class="well bs-component">
-    <form (ngSubmit)="submit()" class="form-horizontal">
+    <form class="form-horizontal" (ngSubmit)="submit()" #f="ngForm">
       <fieldset>
 
         <legend>Nouveau Produit</legend>
@@ -12,10 +12,11 @@
         <div class="form-group">
           <label for="category" class="col-lg-2 control-label">Catégorie</label>
           <div class="col-lg-10">
-            <select id="category" class="form-control" (change)="onCategoryChange()" [(ngModel)]="product.categoryId" name="categoryId">
+            <select class="form-control" id="category" name="categoryId" [(ngModel)]="product.categoryId" (change)="onCategoryChange()" required #category="ngModel" >
               <option value=""></option>
               <option *ngFor="let c of categories" value="{{ c.id }}">{{ c.name }}</option>
             </select>
+            <div class="alert alert-danger" *ngIf="category.touched && !category.valid">merci de spécifier une catégorie.</div>
           </div>
         </div>  
 
@@ -34,21 +35,23 @@
         <div class="form-group">
           <label for="name" class="col-lg-2 control-label">Nom</label>
           <div class="col-lg-10">
-            <input id="name" name="name" [(ngModel)]="product.name" type="text" class="form-control" placeholder="Nom du produit">
+            <input type="text" class="form-control" id="name" name="name" [(ngModel)]="product.name" placeholder="Nom du produit" required #name="ngModel" >
+            <div class="alert alert-danger" *ngIf="name.touched && !name.valid">merci de saisir le nom du produit.</div>
           </div>
         </div>
 
         <div class="form-group">
           <label for="reference" class="col-lg-2 control-label">Référence</label>
           <div class="col-lg-10">
-            <input id="reference" name="reference" [(ngModel)]="product.reference" type="text" class="form-control" placeholder="Référence du produit">
+            <input type="text" class="form-control" id="reference" name="reference" [(ngModel)]="product.reference" placeholder="Référence du produit" required #reference="ngModel" >
+            <div class="alert alert-danger" *ngIf="reference.touched && !reference.valid">merci de saisir la référence du produit.</div>
           </div>
         </div>
 
         <div class="form-group">
           <div class="col-lg-10 col-lg-offset-2">
             <button type="reset" class="btn btn-default">Annuler</button>
-            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <button type="submit" class="btn btn-primary" [disabled]="!f.valid">Enregistrer</button>
           </div>
         </div>
           
