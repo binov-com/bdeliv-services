@@ -12,7 +12,14 @@ export class ProductService {
       .map(res => res.json());
   }
 
+  create(product) {
+    return this.http.post('api/products', product)
+      .map(res => res.json());
+  }
+
   getUsers() {
     return this.http.get('api/users').map(res => res.json());
   }
+
+
 }
