@@ -11,7 +11,9 @@ export class ProductFormComponent implements OnInit {
   products: any[];
   users: any[];
 
-  product: any = {};
+  product: any = {
+    users: []
+  };
   
   constructor(private productService: ProductService) { }
 
@@ -29,6 +31,15 @@ export class ProductFormComponent implements OnInit {
     // console.log("PRODUCT", this.product);
     var selectedCategorie = this.categories.find(c => c.id == this.product.categoryId);
     this.products = selectedCategorie ? selectedCategorie.products : [];
+  }
+
+  onUserToggle(userId, $event) {
+    if($event.target.checked)
+      this.product.users.push(userId);
+    else {
+      var index = this.product.users.indexOf(userId);
+      this.product.users.splice(index, 1);
+    }
   }
 
 }

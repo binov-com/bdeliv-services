@@ -51,12 +51,12 @@
             <button type="submit" class="btn btn-primary">Enregistrer</button>
           </div>
         </div>
-
+          
         <h2>Utilisateurs</h2>
         
         <div *ngFor="let u of users" class="checkbox">
-          <label for="{{ u.id }}">
-            <input type="checkbox" id="{{ u.id }}">{{ u.firstName }}
+          <label for="user{{ u.id }}">
+            <input type="checkbox" id="user{{ u.id }}" (change)="onUserToggle(u.id, $event)">{{ u.firstName }}
           </label>
         </div>
 
