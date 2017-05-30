@@ -34,14 +34,14 @@
         <div class="form-group">
           <label for="name" class="col-lg-2 control-label">Nom</label>
           <div class="col-lg-10">
-            <input id="name" type="text" class="form-control" placeholder="Nom du produit" [(ngModel)]="product.name" name="name">
+            <input id="name" name="name" [(ngModel)]="product.name" type="text" class="form-control" placeholder="Nom du produit">
           </div>
         </div>
 
         <div class="form-group">
           <label for="reference" class="col-lg-2 control-label">Référence</label>
           <div class="col-lg-10">
-            <input id="reference" type="text" class="form-control" placeholder="Référence du produit">
+            <input id="reference" name="reference" [(ngModel)]="product.reference" type="text" class="form-control" placeholder="Référence du produit">
           </div>
         </div>
 
