@@ -44,7 +44,12 @@ export class ProductFormComponent implements OnInit {
 
   submit() {
     this.productService.create(this.product)
-      .subscribe(x => console.log(x));
+      .subscribe(
+        x => console.log(x),
+        err => {
+            console.log(err.status)
+          }
+        );
   }
 
 }
