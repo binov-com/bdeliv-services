@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from "../../services/product.service";
+import { ToastyService } from "ng2-toasty";
 
 @Component({
   selector: 'app-product-form',
@@ -15,7 +16,9 @@ export class ProductFormComponent implements OnInit {
     users: []
   };
   
-  constructor(private productService: ProductService) { }
+  constructor(
+    private productService: ProductService,
+    private toastyService: ToastyService) { }
 
   ngOnInit() {
     this.productService.getCategories().subscribe(
@@ -47,7 +50,13 @@ export class ProductFormComponent implements OnInit {
       .subscribe(
         x => console.log(x),
         err => {
-            console.log(err.status)
+            this.toastyService.error({
+              title: 'Erreur',
+              msg: 'An unexpected error happened.',
+              theme: 'bootstrap',
+              showClose: true,
+              timeout: 5000
+            })
           }
         );
   }

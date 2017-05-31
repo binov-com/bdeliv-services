@@ -24,6 +24,8 @@ namespace bdeliv_services.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateProduct([FromBody] SaveProductResource productResource)
         {
+            throw new Exception();
+
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
