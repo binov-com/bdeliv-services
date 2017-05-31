@@ -47,18 +47,7 @@ export class ProductFormComponent implements OnInit {
 
   submit() {
     this.productService.create(this.product)
-      .subscribe(
-        x => console.log(x),
-        err => {
-            this.toastyService.error({
-              title: 'Erreur',
-              msg: 'An unexpected error happened.',
-              theme: 'bootstrap',
-              showClose: true,
-              timeout: 5000
-            })
-          }
-        );
+      .subscribe(x => console.log(x));
   }
 
 }

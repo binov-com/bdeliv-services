@@ -1,6 +1,6 @@
 // Modules //
 import { FormsModule } from '@angular/forms';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ToastyModule } from 'ng2-toasty';
 import { UniversalModule } from 'angular2-universal';
@@ -15,6 +15,7 @@ import { ProductFormComponent } from './components/product-form/product-form.com
 
 // Services //
 import { ProductService } from "./services/product.service";
+import { AppErrorHandler } from "./app.error-handler";
 
 @NgModule({
     bootstrap: [ AppComponent ],
@@ -40,6 +41,7 @@ import { ProductService } from "./services/product.service";
         ])
     ],
     providers: [
+        { provide: ErrorHandler, useClass: AppErrorHandler },
         ProductService, 
     ]
 })
