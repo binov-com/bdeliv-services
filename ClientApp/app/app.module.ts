@@ -1,4 +1,5 @@
 // Modules //
+import * as Raven from 'raven-js';
 import { FormsModule } from '@angular/forms';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -16,6 +17,11 @@ import { ProductFormComponent } from './components/product-form/product-form.com
 // Services //
 import { ProductService } from "./services/product.service";
 import { AppErrorHandler } from "./app.error-handler";
+
+// Config sentry.io //
+Raven
+    .config('https://097efc9d5ced432398c904a59f8d66a6@sentry.io/174916')
+    .install();
 
 @NgModule({
     bootstrap: [ AppComponent ],
