@@ -41,6 +41,7 @@ Raven
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: HomeComponent },
             { path: 'products/new', component: ProductFormComponent },
+            { path: 'products/:id', component: ProductFormComponent },
             { path: 'counter', component: CounterComponent },
             { path: 'fetch-data', component: FetchDataComponent },
             { path: '**', redirectTo: 'home' }
