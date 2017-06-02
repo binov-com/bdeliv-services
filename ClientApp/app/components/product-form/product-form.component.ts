@@ -31,16 +31,22 @@ export class ProductFormComponent implements OnInit {
   }
 
   ngOnInit() {
-  
-    Observable.forkJoin([
+    
+    var sources = [
       this.productService.getCategories(),
-      this.productService.getUsers(),
-      this.productService.getProduct(this.product.id)
-    ]).subscribe(
+      this.productService.getUsers()
+    ];
+
+    if(this.product.id)
+      sources.push(this.productService.getProduct(this.product.id));
+
+    Observable.forkJoin(sources).subscribe(
       data => {
         this.categories = data[0];
         this.users = data[1];
-        this.product = data[2];
+
+        if(this.product.id)
+          this.product = data[2];
       },
       err => {
         if(err.status == 404)

@@ -10,9 +10,9 @@ export class AppErrorHandler implements ErrorHandler {
     handleError(error: any): void {
         if(!isDevMode())
             Raven.captureException(error.originalError || error);
-        else 
-            throw error;
 
+        console.log(error);
+        
         this.ngZone.run(() => {
             this.toastyService.error({
               title: 'Erreur',
