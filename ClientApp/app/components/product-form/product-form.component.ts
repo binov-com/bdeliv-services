@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ProductService } from "../../services/product.service";
 import { ToastyService } from "ng2-toasty";
 import { Router, ActivatedRoute } from "@angular/router";
+import { Observable } from "rxjs/Observable";
+import 'rxjs/add/Observable/forkJoin';
 
 @Component({
   selector: 'app-product-form',
@@ -21,29 +23,29 @@ export class ProductFormComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router, // redirect to home when "id" isn't exist //
     private productService: ProductService,
-    private toastyService: ToastyService) { 
-      route.params.subscribe(p => {
-        this.product.id = +p['id'] // the sign "+" convert "id" param to an integer //
-      });
-    }
+    private toastyService: ToastyService) 
+  { 
+    route.params.subscribe(p => {
+      this.product.id = +p['id'] // the sign "+" convert "id" param to an integer //
+    });
+  }
 
   ngOnInit() {
-    this.productService.getProduct(this.product.id).subscribe(
-      p => { 
-        this.product = p; 
+  
+    Observable.forkJoin([
+      this.productService.getCategories(),
+      this.productService.getUsers(),
+      this.productService.getProduct(this.product.id)
+    ]).subscribe(
+      data => {
+        this.categories = data[0];
+        this.users = data[1];
+        this.product = data[2];
       },
       err => {
         if(err.status == 404)
           this.router.navigate(['/home']);
       }
-    );
-
-    this.productService.getCategories().subscribe(
-      categories => this.categories = categories
-    );
-
-    this.productService.getUsers().subscribe(
-      users => this.users = users
     );
   }
 
