@@ -48,6 +48,14 @@
           </div>
         </div>
 
+        <h2>Etat</h2>
+        <label for="isActive" class="radio-inline">
+          <input name="status" id="isActive" type="radio" [value]="true" [(ngModel)]="product.status"> Yes
+        </label>
+        <label for="isNotActive" class="radio-inline">
+          <input name="status" id="isNotActive" type="radio" [value]="false" [(ngModel)]="product.status"> No
+        </label>
+
         <div class="form-group">
           <div class="col-lg-10 col-lg-offset-2">
             <button type="reset" class="btn btn-default">Annuler</button>
@@ -63,13 +71,7 @@
           </label>
         </div>
 
-        <h2>Is this user Admin ?</h2>
-        <label for="isAdmin" class="radio-inline">
-          <input name="isAdmin" id="admin" type="radio" value="true" [(ngModel)]="product.isAdmin"> Yes
-        </label>
-        <label for="isNotAdmin" class="radio-inline">
-          <input name="isAdmin" id="notAdmin" type="radio" value="false" [(ngModel)]="product.isAdmin"> No
-        </label>
+        
 
       </fieldset>
     </form>

@@ -24,8 +24,6 @@ namespace bdeliv_services.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateProduct([FromBody] SaveProductResource productResource)
         {
-            throw new Exception();
-
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
@@ -39,7 +37,6 @@ namespace bdeliv_services.Controllers
             var product = mapper.Map<SaveProductResource, Product>(productResource);
 
             // Defaults Values 
-            product.Status = true;
             product.CreatedAt = DateTime.Now;
             product.UpdatedAt = DateTime.Now;
 

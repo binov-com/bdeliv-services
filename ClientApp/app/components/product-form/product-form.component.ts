@@ -23,6 +23,7 @@ export class ProductFormComponent implements OnInit {
   product: SaveProduct = {
     id: 0,
     categoryId: 0,
+    status: false,
     reference: '',
     name: '',
     users: []
@@ -67,6 +68,7 @@ export class ProductFormComponent implements OnInit {
   private setProduct(product: Product) {
     this.product.id = product.id;
     this.product.categoryId = product.category.id;
+    this.product.status = product.status;
     this.product.name = product.name;
     this.product.reference = product.reference;
     this.product.users = _.pluck(product.users, 'id');
