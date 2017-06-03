@@ -83,11 +83,11 @@ export class ProductFormComponent implements OnInit {
   }
   
   
-  onUserToggle(userId, $event) {
+  onTagToggle(tagId, $event) {
     if($event.target.checked)
-      this.product.tags.push(userId);
+      this.product.tags.push(tagId);
     else {
-      var index = this.product.tags.indexOf(userId);
+      var index = this.product.tags.indexOf(tagId);
       this.product.tags.splice(index, 1);
     }
   }

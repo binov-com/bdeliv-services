@@ -66,8 +66,8 @@
         <h2>Tags</h2>
         
         <div *ngFor="let t of tags" class="checkbox">
-          <label for="user{{ t.id }}">
-            <input type="checkbox" id="user{{ t.id }}" (change)="onUserToggle(t.id, $event)" [checked]="product.tags.includes(t.id)">{{ t.name }}
+          <label for="tag{{ t.id }}">
+            <input type="checkbox" id="tag{{ t.id }}" (change)="onTagToggle(t.id, $event)" [checked]="product.tags.includes(t.id)">{{ t.name }}
           </label>
         </div>
 
