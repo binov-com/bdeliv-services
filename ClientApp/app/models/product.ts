@@ -1,14 +1,14 @@
 
 import { Category } from "./category";
-import { User } from "./user";
+import { Tag } from "./tag";
 
 export interface Product {
     id: number;
     category: Category;
-    status: boolean;
+    status: number;
     reference: string;
     name: string;
-    users: User[];
+    tags: Tag[];
     updatedAt: string;
 }
 

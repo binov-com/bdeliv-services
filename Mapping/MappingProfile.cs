@@ -20,6 +20,8 @@ namespace bdeliv_services.Mapping
 
             CreateMap<Product, ProductResource>()
                 .ForMember(pr => pr.Tags, opt => opt.MapFrom(p => p.Tags.Select(pt => new KeyValuePairResource { Id = pt.Tag.Id, Name = pt.Tag.Name })));
+            
+            CreateMap<Tag, KeyValuePairResource>();
 
             // API Resource to Domain
             CreateMap<SaveProductResource, Product>()

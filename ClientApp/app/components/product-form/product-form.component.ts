@@ -17,16 +17,16 @@ import { Product } from "../../models/product";
 })
 export class ProductFormComponent implements OnInit {
   categories: any[];
-  products: any[];
-  users: any[];
+  //products: any[];
+  tags: any[];
 
   product: SaveProduct = {
     id: 0,
     categoryId: 0,
-    status: false,
+    status: 0,
     reference: '',
     name: '',
-    users: []
+    tags: []
   };
   
   constructor(
@@ -44,7 +44,7 @@ export class ProductFormComponent implements OnInit {
     
     var sources = [
       this.productService.getCategories(),
-      this.productService.getUsers()
+      this.productService.getTags()
     ];
 
     if(this.product.id)
@@ -53,7 +53,7 @@ export class ProductFormComponent implements OnInit {
     Observable.forkJoin(sources).subscribe(
       data => {
         this.categories = data[0];
-        this.users = data[1];
+        this.tags = data[1];
 
         if(this.product.id)
           this.setProduct(data[2]);
@@ -71,27 +71,57 @@ export class ProductFormComponent implements OnInit {
     this.product.status = product.status;
     this.product.name = product.name;
     this.product.reference = product.reference;
-    this.product.users = _.pluck(product.users, 'id');
+    this.product.tags = _.pluck(product.tags, 'id');
   }
 
+  
   onCategoryChange() {
-    // console.log("PRODUCT", this.product);
+    /*
     var selectedCategorie = this.categories.find(c => c.id == this.product.categoryId);
     this.products = selectedCategorie ? selectedCategorie.products : [];
+    */
   }
-
+  
+  
   onUserToggle(userId, $event) {
     if($event.target.checked)
-      this.product.users.push(userId);
+      this.product.tags.push(userId);
     else {
-      var index = this.product.users.indexOf(userId);
-      this.product.users.splice(index, 1);
+      var index = this.product.tags.indexOf(userId);
+      this.product.tags.splice(index, 1);
     }
   }
+  
 
   submit() {
-    this.productService.create(this.product)
-      .subscribe(x => console.log(x));
+    if(this.product.id) {
+      this.productService.update(this.product)
+        .subscribe(x => {
+          this.toastyService.success({
+            title: 'Success',
+            msg: 'The product was successfully updated.',
+            theme: 'bootstrap',
+            showClose: true,
+            timeout: 5000
+          });
+        },
+        err => console.log(err)
+      );
+    } else {
+      this.productService.create(this.product)
+      .subscribe(x => {
+          this.toastyService.success({
+            title: 'Success',
+            msg: 'The product was successfully added.',
+            theme: 'bootstrap',
+            showClose: true,
+            timeout: 5000
+          });
+        },
+        err => console.log(err)
+      );
+    }
+    
   }
 
 }

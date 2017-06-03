@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { SaveProduct } from "../models/save-product";
 
 @Injectable()
 export class ProductService {
@@ -17,14 +18,18 @@ export class ProductService {
       .map(res => res.json());
   }
 
-  create(product) {
+  create(product: SaveProduct) {
     return this.http.post('api/products', product)
       .map(res => res.json());
   }
 
-  getUsers() {
-    return this.http.get('api/users').map(res => res.json());
+  update(product: SaveProduct) {
+    return this.http.put('api/products/' + product.id, product)
+      .map(res => res.json());
   }
 
+  getTags() {
+    return this.http.get('api/tags').map(res => res.json());
+  }
 
 }

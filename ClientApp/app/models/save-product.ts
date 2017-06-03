@@ -2,8 +2,8 @@
 export interface SaveProduct {
     id: number;
     categoryId: number;
-    status: boolean;
+    status: number;
     reference: string;
     name: string;
-    users: number[];
+    tags: number[];
 }
