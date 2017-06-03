@@ -1,9 +1,14 @@
+import * as _ from 'underscore';
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from "../../services/product.service";
 import { ToastyService } from "ng2-toasty";
 import { Router, ActivatedRoute } from "@angular/router";
+
 import { Observable } from "rxjs/Observable";
 import 'rxjs/add/Observable/forkJoin';
+
+import { SaveProduct } from "../../models/save-product";
+import { Product } from "../../models/product";
 
 @Component({
   selector: 'app-product-form',
@@ -15,7 +20,11 @@ export class ProductFormComponent implements OnInit {
   products: any[];
   users: any[];
 
-  product: any = {
+  product: SaveProduct = {
+    id: 0,
+    categoryId: 0,
+    reference: '',
+    name: '',
     users: []
   };
   
@@ -46,13 +55,21 @@ export class ProductFormComponent implements OnInit {
         this.users = data[1];
 
         if(this.product.id)
-          this.product = data[2];
+          this.setProduct(data[2]);
       },
       err => {
         if(err.status == 404)
           this.router.navigate(['/home']);
       }
     );
+  }
+
+  private setProduct(product: Product) {
+    this.product.id = product.id;
+    this.product.categoryId = product.category.id;
+    this.product.name = product.name;
+    this.product.reference = product.reference;
+    this.product.users = _.pluck(product.users, 'id');
   }
 
   onCategoryChange() {
