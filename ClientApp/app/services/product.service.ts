@@ -18,13 +18,18 @@ export class ProductService {
       .map(res => res.json());
   }
 
-  create(product: SaveProduct) {
+  create(product) {
     return this.http.post('api/products', product)
       .map(res => res.json());
   }
 
   update(product: SaveProduct) {
     return this.http.put('api/products/' + product.id, product)
+      .map(res => res.json());
+  }
+
+  delete(id: number) {
+    return this.http.delete('api/products/' + id)
       .map(res => res.json());
   }
 

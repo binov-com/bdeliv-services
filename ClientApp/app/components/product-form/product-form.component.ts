@@ -124,4 +124,23 @@ export class ProductFormComponent implements OnInit {
     
   }
 
+  delete() {
+
+    if(confirm("Are you sure you want delete this product?")) {
+      this.productService.delete(this.product.id)
+        .subscribe(x => {
+          this.toastyService.success({
+            title: 'Success',
+            msg: 'The product was successfully deleted.',
+            theme: 'bootstrap',
+            showClose: true,
+            timeout: 5000
+          });
+
+          this.router.navigate(['/home']);
+        });
+    }
+
+  }
+
 }
