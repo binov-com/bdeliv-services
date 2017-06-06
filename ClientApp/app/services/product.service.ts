@@ -13,6 +13,11 @@ export class ProductService {
       .map(res => res.json());
   }
 
+  getProducts() {
+    return this.http.get('api/products')
+      .map(res => res.json());
+  }
+
   getProduct(id) {
     return this.http.get('api/products/' + id)
       .map(res => res.json());

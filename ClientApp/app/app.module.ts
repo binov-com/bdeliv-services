@@ -17,6 +17,7 @@ import { ProductFormComponent } from './components/product-form/product-form.com
 // Services //
 import { ProductService } from "./services/product.service";
 import { AppErrorHandler } from "./app.error-handler";
+import { ProductListComponent } from './components/product-list/product-list.component';
 
 // Config sentry.io //
 Raven
@@ -31,17 +32,19 @@ Raven
         CounterComponent,
         FetchDataComponent,
         HomeComponent,
-        ProductFormComponent
+        ProductFormComponent,
+        ProductListComponent
     ],
     imports: [
         FormsModule,
         ToastyModule.forRoot(),
         UniversalModule, // Must be first import. This automatically imports BrowserModule, HttpModule, and JsonpModule too.
         RouterModule.forRoot([
-            { path: '', redirectTo: 'home', pathMatch: 'full' },
+            { path: '', redirectTo: 'products', pathMatch: 'full' },
             { path: 'home', component: HomeComponent },
             { path: 'products/new', component: ProductFormComponent },
             { path: 'products/:id', component: ProductFormComponent },
+            { path: 'products', component: ProductListComponent },
             { path: 'counter', component: CounterComponent },
             { path: 'fetch-data', component: FetchDataComponent },
             { path: '**', redirectTo: 'home' }
