@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using bdeliv_services.Core;
 using bdeliv_services.Models;
@@ -11,6 +12,15 @@ namespace bdeliv_services.Persistence
         public ProductRepository(BdelivDbContext context)
         {
             this.context = context;
+        }
+
+        public async Task<IEnumerable<Product>> GetProducts() 
+        {
+            return await context.Products
+                .Include(p => p.Category)
+                .Include(p => p.Tags)
+                    .ThenInclude(pt => pt.Tag)
+                .ToListAsync();
         }
 
         public async Task<Product> GetProduct(int id, bool includeRelated = false)

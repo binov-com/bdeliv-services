@@ -5,6 +5,7 @@ using bdeliv_services.Controllers.Resources;
 using bdeliv_services.Models;
 using bdeliv_services.Core;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace bdeliv_services.Controllers
 {
@@ -98,6 +99,14 @@ namespace bdeliv_services.Controllers
             var productResource = mapper.Map<Product, ProductResource>(product);
 
             return Ok(productResource);
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable<ProductResource>> GetProducts() 
+        {
+            var products = await repository.GetProducts();
+
+            return mapper.Map<IEnumerable<Product>, IEnumerable<ProductResource>>(products);
         }
     }
 }
