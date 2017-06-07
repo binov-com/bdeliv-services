@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using bdeliv_services.Core;
 using bdeliv_services.Models;
@@ -14,13 +15,18 @@ namespace bdeliv_services.Persistence
             this.context = context;
         }
 
-        public async Task<IEnumerable<Product>> GetProducts() 
+        public async Task<IEnumerable<Product>> GetProducts(Filter filter) 
         {
-            return await context.Products
+            var query = context.Products
                 .Include(p => p.Category)
                 .Include(p => p.Tags)
                     .ThenInclude(pt => pt.Tag)
-                .ToListAsync();
+                .AsQueryable();
+            
+            if(filter.CategoryId.HasValue)
+                query = query.Where(p => p.CategoryId == filter.CategoryId.Value); // .Value because CategoryId is Nullable (int?)
+
+            return await query.ToListAsync();
         }
 
         public async Task<Product> GetProduct(int id, bool includeRelated = false)

@@ -24,6 +24,7 @@ namespace bdeliv_services.Mapping
             CreateMap<Tag, KeyValuePairResource>();
 
             // API Resource to Domain
+            CreateMap<FilterResource, Filter>();
             CreateMap<SaveProductResource, Product>()
                 .ForMember(p => p.Id, opt => opt.Ignore())
                 .ForMember(p => p.Tags, opt => opt.Ignore())
