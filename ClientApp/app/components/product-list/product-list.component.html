@@ -2,13 +2,17 @@
 <p>
   <a [routerLink]="['/products/new']" class="btn btn-primary">Nouveau Produit</a>
 </p>
-<div class="form-group well">
-  <label for="category">Categorie</label>
-  <select name="" id="category" class="form-control" [(ngModel)]="filter.categoryId" (change)="onFilterChange()">
-    <option value=""></option>
-    <option *ngFor="let c of categories" value="{{ c.id }}">{{ c.name }}</option>
-  </select>
+<div class="well">
+  <div class="form-group">
+    <label for="category">Categorie</label>
+    <select name="" id="category" class="form-control" [(ngModel)]="filter.categoryId" (change)="onFilterChange()">
+      <option value=""></option>
+      <option *ngFor="let c of categories" value="{{ c.id }}">{{ c.name }}</option>
+    </select>
+  </div>
+  <button class="btn btn-default" (click)="resetFilter()">Réinitialiser</button>
 </div>
+
 <table class="table">
   <thead>
     <tr>

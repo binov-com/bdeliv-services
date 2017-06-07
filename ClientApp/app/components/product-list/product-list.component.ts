@@ -33,6 +33,11 @@ export class ProductListComponent implements OnInit {
       products = products.filter(p => p.category.id == this.filter.categoryId);
     
     this.products = products;
+  }
 
+  resetFilter() {
+    this.filter = {};
+
+    this.onFilterChange();
   }
 }
