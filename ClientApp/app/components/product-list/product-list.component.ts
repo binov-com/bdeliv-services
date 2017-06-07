@@ -12,6 +12,8 @@ import { Category } from "../../models/category";
 export class ProductListComponent implements OnInit {
   categories: Category[];
   products: Product[];
+  allProducts: Product[];
+
   filter: any = {};
   
   constructor(private productService: ProductService) { }
@@ -21,10 +23,16 @@ export class ProductListComponent implements OnInit {
       .subscribe(categories => this.categories = categories);
 
     this.productService.getProducts()
-      .subscribe(products => this.products = products);
+      .subscribe(products => this.products = this.allProducts = products);
   }
 
   onFilterChange() {
+    var products = this.allProducts;
+
+    if(this.filter.categoryId)
+      products = products.filter(p => p.category.id == this.filter.categoryId);
+    
+    this.products = products;
 
   }
 }
