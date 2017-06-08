@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using bdeliv_services.Core;
 using bdeliv_services.Models;
@@ -29,17 +31,18 @@ namespace bdeliv_services.Persistence
             if(queryObj.Name != null && queryObj.Name != "")
                 query = query.Where(p => p.Name.Contains(queryObj.Name));
 
-            if(queryObj.SortBy == "id")
-                query = (queryObj.IsSortAscending) ? query.OrderBy(p => p.Id) : query.OrderByDescending(p => p.Id);
+            var columnsMap = new Dictionary<string, Expression<Func<Product, object>>>()
+            { 
+                ["id"] = p => p.Id,                      // columnsMap.Add("id", p => p.Id);
+                ["category"] = p => p.Category.Name,     // columnsMap.Add("category", p => p.Category.Name);
+                ["reference"] = p => p.Reference,        // columnsMap.Add("reference", p => p.Reference);
+                ["name"] = p => p.Name                   // columnsMap.Add("name", p => p.Name);
+            };
 
-            if(queryObj.SortBy == "category")
-                query = (queryObj.IsSortAscending) ? query.OrderBy(p => p.Category.Name) : query.OrderByDescending(p => p.Category.Name);
-            
-            if(queryObj.SortBy == "reference")
-                query = (queryObj.IsSortAscending) ? query.OrderBy(p => p.Reference) : query.OrderByDescending(p => p.Reference);
-
-            if(queryObj.SortBy == "name")
-                query = (queryObj.IsSortAscending) ? query.OrderBy(p => p.Name) : query.OrderByDescending(p => p.Name);
+            if(queryObj.IsSortAscending)
+                query = query.OrderBy(columnsMap[queryObj.SortBy]);
+            else
+                query = query.OrderByDescending(columnsMap[queryObj.SortBy]);
             
             return await query.ToListAsync();
         }
