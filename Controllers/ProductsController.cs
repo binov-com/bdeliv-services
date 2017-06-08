@@ -102,9 +102,9 @@ namespace bdeliv_services.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<ProductResource>> GetProducts(FilterResource filterResource) 
+        public async Task<IEnumerable<ProductResource>> GetProducts(ProductQueryResource filterResource) 
         {
-            var filter = mapper.Map<FilterResource, Filter>(filterResource);
+            var filter = mapper.Map<ProductQueryResource, ProductQuery>(filterResource);
 
             var products = await repository.GetProducts(filter);
 

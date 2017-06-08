@@ -15,7 +15,7 @@ namespace bdeliv_services.Persistence
             this.context = context;
         }
 
-        public async Task<IEnumerable<Product>> GetProducts(Filter filter) 
+        public async Task<IEnumerable<Product>> GetProducts(ProductQuery queryObj) 
         {
             var query = context.Products
                 .Include(p => p.Category)
@@ -23,12 +23,24 @@ namespace bdeliv_services.Persistence
                     .ThenInclude(pt => pt.Tag)
                 .AsQueryable();
             
-            if(filter.CategoryId.HasValue)
-                query = query.Where(p => p.CategoryId == filter.CategoryId.Value); // .Value because CategoryId is Nullable (int?)
+            if(queryObj.CategoryId.HasValue)
+                query = query.Where(p => p.CategoryId == queryObj.CategoryId.Value); // .Value because CategoryId is Nullable (int?)
 
-            if(filter.Name != null && filter.Name != "")
-                query = query.Where(p => p.Name.Contains(filter.Name));
+            if(queryObj.Name != null && queryObj.Name != "")
+                query = query.Where(p => p.Name.Contains(queryObj.Name));
 
+            if(queryObj.SortBy == "id")
+                query = (queryObj.IsSortAscending) ? query.OrderBy(p => p.Id) : query.OrderByDescending(p => p.Id);
+
+            if(queryObj.SortBy == "category")
+                query = (queryObj.IsSortAscending) ? query.OrderBy(p => p.Category.Name) : query.OrderByDescending(p => p.Category.Name);
+            
+            if(queryObj.SortBy == "reference")
+                query = (queryObj.IsSortAscending) ? query.OrderBy(p => p.Reference) : query.OrderByDescending(p => p.Reference);
+
+            if(queryObj.SortBy == "name")
+                query = (queryObj.IsSortAscending) ? query.OrderBy(p => p.Name) : query.OrderByDescending(p => p.Name);
+            
             return await query.ToListAsync();
         }
 
