@@ -26,6 +26,9 @@ namespace bdeliv_services.Persistence
             if(filter.CategoryId.HasValue)
                 query = query.Where(p => p.CategoryId == filter.CategoryId.Value); // .Value because CategoryId is Nullable (int?)
 
+            if(filter.Name != null && filter.Name != "")
+                query = query.Where(p => p.Name.Contains(filter.Name));
+
             return await query.ToListAsync();
         }
 
