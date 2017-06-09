@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using bdeliv_services.Core;
+using bdeliv_services.Extensions;
 using bdeliv_services.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,13 +34,12 @@ namespace bdeliv_services.Persistence
 
             var columnsMap = new Dictionary<string, Expression<Func<Product, object>>>()
             { 
-                ["id"] = p => p.Id,                      // columnsMap.Add("id", p => p.Id);
                 ["category"] = p => p.Category.Name,     // columnsMap.Add("category", p => p.Category.Name);
                 ["reference"] = p => p.Reference,        // columnsMap.Add("reference", p => p.Reference);
                 ["name"] = p => p.Name                   // columnsMap.Add("name", p => p.Name);
             };
 
-            query = ApplyOrdering(queryObj, query, columnsMap);
+            query = query.ApplyOrdering(queryObj, columnsMap);
             
             return await query.ToListAsync();
         }
@@ -73,12 +73,6 @@ namespace bdeliv_services.Persistence
             context.Products.Remove(product);
         }
 
-        private IQueryable<Product> ApplyOrdering(ProductQuery queryObj, IQueryable<Product> query, Dictionary<string, Expression<Func<Product, object>>> columnsMap) 
-        {
-            if(queryObj.IsSortAscending)
-                return query.OrderBy(columnsMap[queryObj.SortBy]);
-            else
-                return query.OrderByDescending(columnsMap[queryObj.SortBy]);
-        }
+        
     }
 }
