@@ -39,10 +39,7 @@ namespace bdeliv_services.Persistence
                 ["name"] = p => p.Name                   // columnsMap.Add("name", p => p.Name);
             };
 
-            if(queryObj.IsSortAscending)
-                query = query.OrderBy(columnsMap[queryObj.SortBy]);
-            else
-                query = query.OrderByDescending(columnsMap[queryObj.SortBy]);
+            query = ApplyOrdering(queryObj, query, columnsMap);
             
             return await query.ToListAsync();
         }
@@ -74,6 +71,14 @@ namespace bdeliv_services.Persistence
         public void Remove(Product product)
         {
             context.Products.Remove(product);
+        }
+
+        private IQueryable<Product> ApplyOrdering(ProductQuery queryObj, IQueryable<Product> query, Dictionary<string, Expression<Func<Product, object>>> columnsMap) 
+        {
+            if(queryObj.IsSortAscending)
+                return query.OrderBy(columnsMap[queryObj.SortBy]);
+            else
+                return query.OrderByDescending(columnsMap[queryObj.SortBy]);
         }
     }
 }
