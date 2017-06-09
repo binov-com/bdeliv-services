@@ -5,14 +5,14 @@
 <div class="well">
   <div class="form-group">
     <label for="category">Categorie</label>
-    <select name="" id="category" class="form-control" [(ngModel)]="filter.categoryId" (change)="onFilterChange()">
+    <select name="" id="category" class="form-control" [(ngModel)]="query.categoryId" (change)="onFilterChange()">
       <option value=""></option>
       <option *ngFor="let c of categories" value="{{ c.id }}">{{ c.name }}</option>
     </select>
   </div>
   <div class="form-group">
     <label for="name">Name</label>
-    <input type="text" name="" id="name" class="form-control" [(ngModel)]="filter.name" (ngModelChange)="onFilterChange()" />
+    <input type="text" name="" id="name" class="form-control" [(ngModel)]="query.name" (ngModelChange)="onFilterChange()" />
   </div>
   <button class="btn btn-default" (click)="resetFilter()">Réinitialiser</button>
 </div>
@@ -21,9 +21,9 @@
   <thead>
     <tr>
       <th>Id</th>
-      <th>Categorie</th>
-      <th>Référence</th>
-      <th>Name</th>
+      <th (click)="sortBy('category')">Categorie</th>
+      <th (click)="sortBy('reference')">Référence</th>
+      <th (click)="sortBy('name')">Name</th>
       <th></th>
     </tr>
   </thead>

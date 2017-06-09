@@ -13,7 +13,7 @@ export class ProductListComponent implements OnInit {
   categories: Category[];
   products: Product[];
 
-  filter: any = {};
+  query: any = {};
   
   constructor(private productService: ProductService) { }
 
@@ -29,13 +29,28 @@ export class ProductListComponent implements OnInit {
   }
 
   resetFilter() {
-    this.filter = {};
+    this.query = {};
 
     this.onFilterChange();
   }
 
   private populateProducts() {
-    this.productService.getProducts(this.filter)
+    this.productService.getProducts(this.query)
       .subscribe(products => this.products = products);
+  }
+
+  sortBy(columnName) {
+    if(this.query.sortBy === columnName) {
+      if(this.query.isSortAscending === false)
+        this.query.isSortAscending = true;
+      else
+        this.query.isSortAscending = false;
+    }
+    else {
+      this.query.sortBy = columnName;
+      this.query.isSortAscending = true;
+    }
+
+    this.populateProducts();
   }
 }
