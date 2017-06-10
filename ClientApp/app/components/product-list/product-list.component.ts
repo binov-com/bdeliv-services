@@ -14,6 +14,13 @@ export class ProductListComponent implements OnInit {
   products: Product[];
 
   query: any = {};
+
+  columns = [
+    { title: 'Id' },
+    { title: 'Categorie', key: 'category', isSortable: true },
+    { title: 'Référence', key: 'reference', isSortable: true },
+    { title: 'Libellé', key: 'name', isSortable: true },
+  ];
   
   constructor(private productService: ProductService) { }
 
