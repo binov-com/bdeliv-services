@@ -21,9 +21,18 @@
   <thead>
     <tr>
       <th>Id</th>
-      <th (click)="sortBy('category')">Categorie</th>
-      <th (click)="sortBy('reference')">Référence</th>
-      <th (click)="sortBy('name')">Name</th>
+      <th (click)="sortBy('category')">
+        Categorie
+        <i *ngIf="query.sortBy === 'category'" class="fa" [class.fa-sort-asc]="query.isSortAscending" [class.fa-sort-desc]="!query.isSortAscending"></i>
+      </th>
+      <th (click)="sortBy('reference')">
+        Référence
+        <i *ngIf="query.sortBy === 'reference'" class="fa" [class.fa-sort-asc]="query.isSortAscending" [class.fa-sort-desc]="!query.isSortAscending"></i>
+      </th>
+      <th (click)="sortBy('name')">
+        Name
+        <i *ngIf="query.sortBy === 'name'" class="fa" [class.fa-sort-asc]="query.isSortAscending" [class.fa-sort-desc]="!query.isSortAscending"></i>
+      </th>
       <th></th>
     </tr>
   </thead>

@@ -41,10 +41,7 @@ export class ProductListComponent implements OnInit {
 
   sortBy(columnName) {
     if(this.query.sortBy === columnName) {
-      if(this.query.isSortAscending === false)
-        this.query.isSortAscending = true;
-      else
-        this.query.isSortAscending = false;
+      this.query.isSortAscending = !this.query.isSortAscending;
     }
     else {
       this.query.sortBy = columnName;
