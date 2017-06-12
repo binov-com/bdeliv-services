@@ -19,6 +19,7 @@ import { ProductService } from "./services/product.service";
 import { AppErrorHandler } from "./app.error-handler";
 import { ProductListComponent } from './components/product-list/product-list.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
+import { ViewProductComponent } from './components/view-product/view-product.component';
 
 // Config sentry.io //
 Raven
@@ -35,7 +36,8 @@ Raven
         HomeComponent,
         ProductFormComponent,
         ProductListComponent,
-        PaginationComponent
+        PaginationComponent,
+        ViewProductComponent
     ],
     imports: [
         FormsModule,
@@ -43,10 +45,11 @@ Raven
         UniversalModule, // Must be first import. This automatically imports BrowserModule, HttpModule, and JsonpModule too.
         RouterModule.forRoot([
             { path: '', redirectTo: 'products', pathMatch: 'full' },
-            { path: 'home', component: HomeComponent },
             { path: 'products/new', component: ProductFormComponent },
-            { path: 'products/:id', component: ProductFormComponent },
+            { path: 'products/edit/:id', component: ProductFormComponent },          
+            { path: 'products/:id', component: ViewProductComponent },
             { path: 'products', component: ProductListComponent },
+            { path: 'home', component: HomeComponent },
             { path: 'counter', component: CounterComponent },
             { path: 'fetch-data', component: FetchDataComponent },
             { path: '**', redirectTo: 'home' }
