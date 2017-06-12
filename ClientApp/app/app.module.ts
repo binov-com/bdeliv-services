@@ -18,6 +18,7 @@ import { ProductFormComponent } from './components/product-form/product-form.com
 import { ProductService } from "./services/product.service";
 import { AppErrorHandler } from "./app.error-handler";
 import { ProductListComponent } from './components/product-list/product-list.component';
+import { PaginationComponent } from './components/pagination/pagination.component';
 
 // Config sentry.io //
 Raven
@@ -33,7 +34,8 @@ Raven
         FetchDataComponent,
         HomeComponent,
         ProductFormComponent,
-        ProductListComponent
+        ProductListComponent,
+        PaginationComponent
     ],
     imports: [
         FormsModule,

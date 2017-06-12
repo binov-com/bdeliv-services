@@ -13,7 +13,9 @@ export class ProductListComponent implements OnInit {
   categories: Category[];
   products: Product[];
 
-  query: any = {};
+  query: any = {
+    pageSize: 3
+  };
 
   columns = [
     { title: 'Id' },
@@ -55,6 +57,11 @@ export class ProductListComponent implements OnInit {
       this.query.isSortAscending = true;
     }
 
+    this.populateProducts();
+  }
+
+  onPageChange(page) {
+    this.query.page = page;
     this.populateProducts();
   }
 }
