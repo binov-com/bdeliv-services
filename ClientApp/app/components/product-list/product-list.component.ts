@@ -11,7 +11,7 @@ import { Category } from "../../models/category";
 })
 export class ProductListComponent implements OnInit {
   categories: Category[];
-  products: Product[];
+  queryResult: any = {};
 
   query: any = {
     pageSize: 3
@@ -45,7 +45,7 @@ export class ProductListComponent implements OnInit {
 
   private populateProducts() {
     this.productService.getProducts(this.query)
-      .subscribe(products => this.products = products);
+      .subscribe(result => this.queryResult = result);
   }
 
   sortBy(columnName) {

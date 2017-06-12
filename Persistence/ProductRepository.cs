@@ -18,8 +18,10 @@ namespace bdeliv_services.Persistence
             this.context = context;
         }
 
-        public async Task<IEnumerable<Product>> GetProducts(ProductQuery queryObj) 
+        public async Task<QueryResult<Product>> GetProducts(ProductQuery queryObj) 
         {
+            var result = new QueryResult<Product>();
+
             var query = context.Products
                 .Include(p => p.Category)
                 .Include(p => p.Tags)
@@ -41,9 +43,13 @@ namespace bdeliv_services.Persistence
 
             query = query.ApplyOrdering(queryObj, columnsMap);
 
+            result.TotalItems = await query.CountAsync();
+
             query = query.ApplyPaging(queryObj);
+
+            result.Items = await query.ToListAsync();
             
-            return await query.ToListAsync();
+            return result;
         }
 
         public async Task<Product> GetProduct(int id, bool includeRelated = false)

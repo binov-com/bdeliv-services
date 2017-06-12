@@ -35,7 +35,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let p of products">
+    <tr *ngFor="let p of queryResult.items">
       <td>{{ p.id }}</td>
       <td>{{ p.category.name }}</td>
       <td>{{ p.reference }}</td>
@@ -46,4 +46,4 @@
     </tr>
   </tbody>
 </table>
-<app-pagination [total-items]="10" [page-size]="query.pageSize" (page-changed)="onPageChange($event)"></app-pagination>
+<app-pagination [total-items]="queryResult.totalItems" [page-size]="query.pageSize" (page-changed)="onPageChange($event)"></app-pagination>

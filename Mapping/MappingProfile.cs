@@ -23,6 +23,9 @@ namespace bdeliv_services.Mapping
             
             CreateMap<Tag, KeyValuePairResource>();
 
+            // Domain to API Resource Generic 
+            CreateMap(typeof(QueryResult<>), typeof(QueryResultResource<>));
+
             // API Resource to Domain
             CreateMap<ProductQueryResource, ProductQuery>();
             CreateMap<SaveProductResource, Product>()
