@@ -10,11 +10,13 @@ import { Category } from "../../models/category";
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit {
+  private readonly PAGE_SIZE = 3;
+
   categories: Category[];
   queryResult: any = {};
 
   query: any = {
-    pageSize: 3
+    pageSize: this.PAGE_SIZE
   };
 
   columns = [
@@ -34,13 +36,17 @@ export class ProductListComponent implements OnInit {
   }
 
   onFilterChange() {
+    this.query.page = 1;
     this.populateProducts();
   }
 
   resetFilter() {
-    this.query = {};
+    this.query = {
+      page: 1,
+      pageSize: this.PAGE_SIZE
+    };
 
-    this.onFilterChange();
+    this.populateProducts();
   }
 
   private populateProducts() {
