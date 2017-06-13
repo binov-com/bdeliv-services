@@ -10,6 +10,7 @@ namespace bdeliv_services.Persistence
         public DbSet<Company> Companies { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<Photo> Photos { get; set; }
 
         public BdelivDbContext(DbContextOptions<BdelivDbContext> options) : base(options)
         {

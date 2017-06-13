@@ -47,10 +47,12 @@ namespace bdeliv_services.Models
         public int CategoryId { get; set; }
 
         public ICollection<ProductTags> Tags { get; set; }
+        public ICollection<Photo> Photos { get; set; }
 
         public Product()
         {
             Tags = new Collection<ProductTags>();
+            Photos = new Collection<Photo>();
         }
     }
 }

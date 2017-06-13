@@ -36,7 +36,7 @@ export class ProductFormComponent implements OnInit {
     private toastyService: ToastyService) 
   { 
     route.params.subscribe(p => {
-      this.product.id = +p['id'] // the sign "+" convert "id" param to an integer //
+      this.product.id = +p['id'] || 0; // the sign "+" convert "id" param to an integer //
     });
   }
 
@@ -94,33 +94,17 @@ export class ProductFormComponent implements OnInit {
   
 
   submit() {
-    if(this.product.id) {
-      this.productService.update(this.product)
-        .subscribe(x => {
-          this.toastyService.success({
-            title: 'Success',
-            msg: 'The product was successfully updated.',
-            theme: 'bootstrap',
-            showClose: true,
-            timeout: 5000
-          });
-        },
-        err => console.log(err)
-      );
-    } else {
-      this.productService.create(this.product)
-      .subscribe(x => {
-          this.toastyService.success({
-            title: 'Success',
-            msg: 'The product was successfully added.',
-            theme: 'bootstrap',
-            showClose: true,
-            timeout: 5000
-          });
-        },
-        err => console.log(err)
-      );
-    }
+    var result$ = (this.product.id) ? this.productService.update(this.product) : this.productService.create(this.product)
+    result$.subscribe(product => {
+      this.toastyService.success({
+        title: 'Success',
+        msg: 'The product was successfully updated.',
+        theme: 'bootstrap',
+        showClose: true,
+        timeout: 5000
+      });
+      this.router.navigate(['/products/', product.id]);
+    }, err => console.log(err));
     
   }
 
