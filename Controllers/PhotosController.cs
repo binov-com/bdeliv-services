@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using bdeliv_services.Controllers.Resources;
@@ -14,6 +15,9 @@ namespace bdeliv_services.Controllers
     [Route("/api/products/{productId}/photos")]
     public class PhotosController : Controller
     {
+        private readonly int MAX_BYTES = 10 * 1024 * 1024;
+        private readonly string[] ACCEPTED_FILE_TYPES = new[] { ".png", ".jpg", ".jpeg" };
+
         private readonly IHostingEnvironment host;
         private readonly IProductRepository repository;
         private readonly IUnitOfWork unitOfWork;
@@ -29,8 +33,21 @@ namespace bdeliv_services.Controllers
         [HttpPost]
         public async Task<IActionResult> UploadAsync(int productId, IFormFile file)
         {
-            var product = await repository.GetProduct(productId);
-            if (product == null) return NotFound();
+            var product = await repository.GetProduct(productId);            
+            if (product == null) 
+                return NotFound();
+
+            if(file == null) 
+                return BadRequest("Null file.");
+            
+            if(file.Length == 0) 
+                return BadRequest("Empty file.");
+            
+            if(file.Length > MAX_BYTES) 
+                return BadRequest("Maximum file size exceeded.");
+            
+            if(!ACCEPTED_FILE_TYPES.Any(s => s == Path.GetExtension(file.FileName))) 
+                return BadRequest("Invalid file type.");
 
             var uploadsFolderPath = Path.Combine(host.WebRootPath, "uploads"); // .../wwwroot/uploads/
             if (!Directory.Exists(uploadsFolderPath))
@@ -47,7 +64,7 @@ namespace bdeliv_services.Controllers
             var photo = new Photo { FileName = fileName };
             product.Photos.Add(photo);
             await unitOfWork.CompleteAsync();
-
+            
             return Ok(mapper.Map<Photo, PhotoResource>(photo));
 
         }
