@@ -22,6 +22,7 @@ namespace bdeliv_services.Mapping
                 .ForMember(pr => pr.Tags, opt => opt.MapFrom(p => p.Tags.Select(pt => new KeyValuePairResource { Id = pt.Tag.Id, Name = pt.Tag.Name })));
             
             CreateMap<Tag, KeyValuePairResource>();
+            CreateMap<Photo, PhotoResource>();
 
             // Domain to API Resource Generic 
             CreateMap(typeof(QueryResult<>), typeof(QueryResultResource<>));
