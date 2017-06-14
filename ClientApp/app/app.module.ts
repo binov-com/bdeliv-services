@@ -20,6 +20,7 @@ import { AppErrorHandler } from "./app.error-handler";
 import { ProductListComponent } from './components/product-list/product-list.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { ViewProductComponent } from './components/view-product/view-product.component';
+import { PhotoService } from "./services/photo.service";
 
 // Config sentry.io //
 Raven
@@ -58,6 +59,7 @@ Raven
     providers: [
         { provide: ErrorHandler, useClass: AppErrorHandler },
         ProductService, 
+        PhotoService,
     ]
 })
 export class AppModule {

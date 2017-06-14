@@ -32,6 +32,12 @@
     <!-- Photos tab -->
     <div role="tabpanel" class="tab-pane" id="photos">
       <h2>Photos</h2>
+      <label class="btn btn-default btn-file">
+        Browse 
+        <input type="file" style="display: none;" (change)="uploadPhoto()" #fileInput>
+      </label>
+      <li>Libellé: {{ fileName }}</li>
+      
     </div>
   </div>
 </div>
