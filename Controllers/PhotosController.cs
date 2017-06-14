@@ -9,21 +9,22 @@ using bdeliv_services.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace bdeliv_services.Controllers
 {
     [Route("/api/products/{productId}/photos")]
     public class PhotosController : Controller
     {
-        private readonly int MAX_BYTES = 10 * 1024 * 1024;
-        private readonly string[] ACCEPTED_FILE_TYPES = new[] { ".png", ".jpg", ".jpeg" };
-
         private readonly IHostingEnvironment host;
         private readonly IProductRepository repository;
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
-        public PhotosController(IHostingEnvironment host, IProductRepository repository, IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly PhotoSettings photoSettings;
+
+        public PhotosController(IHostingEnvironment host, IProductRepository repository, IUnitOfWork unitOfWork, IMapper mapper, IOptionsSnapshot<PhotoSettings> options)
         {
+            this.photoSettings = options.Value;
             this.mapper = mapper;
             this.unitOfWork = unitOfWork;
             this.repository = repository;
@@ -43,10 +44,10 @@ namespace bdeliv_services.Controllers
             if(file.Length == 0) 
                 return BadRequest("Empty file.");
             
-            if(file.Length > MAX_BYTES) 
+            if(file.Length > photoSettings.MaxBytes) 
                 return BadRequest("Maximum file size exceeded.");
             
-            if(!ACCEPTED_FILE_TYPES.Any(s => s == Path.GetExtension(file.FileName))) 
+            if(!photoSettings.IsSupported(file.FileName)) 
                 return BadRequest("Invalid file type.");
 
             var uploadsFolderPath = Path.Combine(host.WebRootPath, "uploads"); // .../wwwroot/uploads/
