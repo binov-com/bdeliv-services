@@ -32,12 +32,8 @@
     <!-- Photos tab -->
     <div role="tabpanel" class="tab-pane" id="photos">
       <h2>Photos</h2>
-      <label class="btn btn-default btn-file">
-        Browse 
-        <input type="file" style="display: none;" (change)="uploadPhoto()" #fileInput>
-      </label>
-      <li>Libellé: {{ fileName }}</li>
-      
+      <input type="file" (change)="uploadPhoto()" #fileInput>
+      <img *ngFor="let photo of photos" src="/uploads/{{ photo.fileName }}" class="img-thumbnail">
     </div>
   </div>
 </div>

@@ -18,42 +18,47 @@ namespace bdeliv_services.Controllers
     public class PhotosController : Controller
     {
         private readonly IHostingEnvironment host;
-        private readonly IProductRepository repository;
+        private readonly IProductRepository productRepository;
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
         private readonly PhotoSettings photoSettings;
+        private readonly IPhotoRepository photoRepository;
 
-        public PhotosController(IHostingEnvironment host, IProductRepository repository, IUnitOfWork unitOfWork, IMapper mapper, IOptionsSnapshot<PhotoSettings> options)
+        public PhotosController(IHostingEnvironment host, IProductRepository productRepository, IPhotoRepository photoRepository, IUnitOfWork unitOfWork, IMapper mapper, IOptionsSnapshot<PhotoSettings> options)
         {
+            this.photoRepository = photoRepository;
             this.photoSettings = options.Value;
             this.mapper = mapper;
             this.unitOfWork = unitOfWork;
-            this.repository = repository;
+            this.productRepository = productRepository;
             this.host = host;
         }
 
         [HttpGet]
-        public IEnumerable<PhotoResource> GetProducts(int productId) {
-            
+        public async Task<IEnumerable<PhotoResource>> GetPhotos(int productId)
+        {
+            var photos = await photoRepository.GetPhotos(productId);
+
+            return mapper.Map<IEnumerable<Photo>, IEnumerable<PhotoResource>>(photos);
         }
 
         [HttpPost]
         public async Task<IActionResult> UploadAsync(int productId, IFormFile file)
         {
-            var product = await repository.GetProduct(productId);            
-            if (product == null) 
+            var product = await productRepository.GetProduct(productId);
+            if (product == null)
                 return NotFound();
 
-            if(file == null) 
+            if (file == null) 
                 return BadRequest("Null file.");
-            
-            if(file.Length == 0) 
+
+            if (file.Length == 0) 
                 return BadRequest("Empty file.");
-            
-            if(file.Length > photoSettings.MaxBytes) 
+
+            if (file.Length > photoSettings.MaxBytes) 
                 return BadRequest("Maximum file size exceeded.");
-            
-            if(!photoSettings.IsSupported(file.FileName)) 
+
+            if (!photoSettings.IsSupported(file.FileName)) 
                 return BadRequest("Invalid file type.");
 
             var uploadsFolderPath = Path.Combine(host.WebRootPath, "uploads"); // .../wwwroot/uploads/
@@ -71,7 +76,7 @@ namespace bdeliv_services.Controllers
             var photo = new Photo { FileName = fileName };
             product.Photos.Add(photo);
             await unitOfWork.CompleteAsync();
-            
+
             return Ok(mapper.Map<Photo, PhotoResource>(photo));
 
         }

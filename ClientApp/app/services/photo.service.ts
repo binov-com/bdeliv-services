@@ -13,4 +13,9 @@ export class PhotoService {
             .map(res => res.json());
     }
 
+    getPhotos(productId) {
+        return this.http.get(`/api/products/${productId}/photos`)
+            .map(res => res.json());
+    }
+
 }
