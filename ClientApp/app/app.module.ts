@@ -21,6 +21,8 @@ import { ProductListComponent } from './components/product-list/product-list.com
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { ViewProductComponent } from './components/view-product/view-product.component';
 import { PhotoService } from "./services/photo.service";
+import { BrowserXhrWithProgress, ProgressService } from "./services/progress.service";
+import { BrowserXhr } from "@angular/http";
 
 // Config sentry.io //
 Raven
@@ -58,8 +60,10 @@ Raven
     ],
     providers: [
         { provide: ErrorHandler, useClass: AppErrorHandler },
+        { provide: BrowserXhr, useClass: BrowserXhrWithProgress },
         ProductService, 
         PhotoService,
+        ProgressService
     ]
 })
 export class AppModule {

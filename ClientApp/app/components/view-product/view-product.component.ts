@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { ProductService } from "../../services/product.service";
 import { ToastyService } from "ng2-toasty";
 import { PhotoService } from "../../services/photo.service";
+import { ProgressService } from "../../services/progress.service";
 
 @Component({
   selector: 'app-view-product',
@@ -19,6 +20,7 @@ export class ViewProductComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router, // redirect to home when "id" isn't exist //
     private toastyService: ToastyService,
+    private progressService: ProgressService,
     private productService: ProductService,
     private photoService: PhotoService    
   ) { 
@@ -57,6 +59,9 @@ export class ViewProductComponent implements OnInit {
 
   uploadPhoto() {
     var nativeElement: HTMLInputElement = this.fileInput.nativeElement;
+
+    this.progressService.uploadProgress
+      .subscribe(progress => console.log(progress));
 
     this.photoService.upload(this.productId, nativeElement.files[0])
       .subscribe(photo => {
