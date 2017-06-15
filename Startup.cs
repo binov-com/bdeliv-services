@@ -37,6 +37,7 @@ namespace WebApplicationBasic
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IPhotoRepository, PhotoRepository>();
 
             services.AddAutoMapper();
 

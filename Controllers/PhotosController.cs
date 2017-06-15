@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,6 +30,11 @@ namespace bdeliv_services.Controllers
             this.unitOfWork = unitOfWork;
             this.repository = repository;
             this.host = host;
+        }
+
+        [HttpGet]
+        public IEnumerable<PhotoResource> GetProducts(int productId) {
+            
         }
 
         [HttpPost]
