@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, NgZone } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { ProductService } from "../../services/product.service";
 import { ToastyService } from "ng2-toasty";
@@ -15,8 +15,10 @@ export class ViewProductComponent implements OnInit {
   product: any;
   productId: number;
   photos: any[];
+  progress: any;
  
   constructor(
+    private zone: NgZone,
     private route: ActivatedRoute,
     private router: Router, // redirect to home when "id" isn't exist //
     private toastyService: ToastyService,
@@ -61,7 +63,15 @@ export class ViewProductComponent implements OnInit {
     var nativeElement: HTMLInputElement = this.fileInput.nativeElement;
 
     this.progressService.uploadProgress
-      .subscribe(progress => console.log(progress));
+      .subscribe(progress => {
+        console.log(progress);
+        // to inform angular for progress status change //
+        this.zone.run(() => { 
+          this.progress = progress;
+        });
+      },
+      null,
+      () => { this.progress = null }); // object progress to null when upload complete
 
     this.photoService.upload(this.productId, nativeElement.files[0])
       .subscribe(photo => {
