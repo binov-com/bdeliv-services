@@ -60,7 +60,6 @@ export class ViewProductComponent implements OnInit {
   }
 
   uploadPhoto() {
-    var nativeElement: HTMLInputElement = this.fileInput.nativeElement;
 
     this.progressService.startTracking()
       .subscribe(progress => {
@@ -73,9 +72,22 @@ export class ViewProductComponent implements OnInit {
       null,
       () => { this.progress = null }); // object progress to null when upload complete
 
-    this.photoService.upload(this.productId, nativeElement.files[0])
+    var nativeElement: HTMLInputElement = this.fileInput.nativeElement;
+    var file = nativeElement.files[0];
+    nativeElement.value = '';
+    
+    this.photoService.upload(this.productId, file)
       .subscribe(photo => {
         this.photos.push(photo);
+      },
+      err => {
+        this.toastyService.error({
+            title: 'Erreur',
+            msg: err.text(),
+            theme: 'bootstrap',
+            showClose: true,
+            timeout: 5000
+          });
       });
   }
 
