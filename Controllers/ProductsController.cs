@@ -6,6 +6,7 @@ using bdeliv_services.Models;
 using bdeliv_services.Core;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace bdeliv_services.Controllers
 {
@@ -23,6 +24,7 @@ namespace bdeliv_services.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreateProduct([FromBody] SaveProductResource productResource)
         {
             if (!ModelState.IsValid)
@@ -52,6 +54,7 @@ namespace bdeliv_services.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateProduct(int id, [FromBody] SaveProductResource productResource)
         {
             if (!ModelState.IsValid)
@@ -75,6 +78,7 @@ namespace bdeliv_services.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteProduct(int id)
         {
             var product = await repository.GetProduct(id);
