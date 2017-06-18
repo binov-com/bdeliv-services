@@ -69,6 +69,14 @@ namespace WebApplicationBasic
 
             app.UseStaticFiles();
 
+            // Auth0 - Parameters //
+            var options = new JwtBearerOptions
+            {
+                Audience = "https://api.bdeliv.com",
+                Authority = "https://bdeliv.auth0.com/"
+            };
+            app.UseJwtBearerAuthentication(options);
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
