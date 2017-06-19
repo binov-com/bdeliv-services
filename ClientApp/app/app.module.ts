@@ -23,6 +23,7 @@ import { ViewProductComponent } from './components/view-product/view-product.com
 import { PhotoService } from "./services/photo.service";
 import { BrowserXhrWithProgress, ProgressService } from "./services/progress.service";
 import { BrowserXhr } from "@angular/http";
+import { AuthService } from "./services/auth.service";
 
 // Config sentry.io //
 Raven
@@ -47,7 +48,7 @@ Raven
         ToastyModule.forRoot(),
         UniversalModule, // Must be first import. This automatically imports BrowserModule, HttpModule, and JsonpModule too.
         RouterModule.forRoot([
-            { path: '', redirectTo: 'products', pathMatch: 'full' },
+            { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'products/new', component: ProductFormComponent },
             { path: 'products/edit/:id', component: ProductFormComponent },          
             { path: 'products/:id', component: ViewProductComponent },
@@ -61,6 +62,7 @@ Raven
     providers: [
         { provide: ErrorHandler, useClass: AppErrorHandler },
         { provide: BrowserXhr, useClass: BrowserXhrWithProgress },
+        AuthService,
         ProductService, 
         PhotoService,
         ProgressService
