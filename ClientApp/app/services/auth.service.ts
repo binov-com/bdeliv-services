@@ -2,11 +2,20 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/filter';
 import * as auth0 from 'auth0-js';
+import { JwtHelper } from 'angular2-jwt';
+
 
 @Injectable()
 export class AuthService {
 
   profile: any;
+  private roles: string[] = [];
+
+  jwtHelper: JwtHelper = new JwtHelper();
+
+  public isInRole(roleName) {
+    return this.roles.indexOf(roleName) > -1;
+  }
 
   auth0 = new auth0.WebAuth({
     clientID: 'MgNB9xdWAs06k31QJq8gjEv2Xe06WoYH',
@@ -15,11 +24,18 @@ export class AuthService {
     audience: 'https://bdeliv.auth0.com/userinfo',
     redirectUri: 'http://localhost:5000/home',      
     //redirectUri: 'http://localhost:4200/callback',      
-    scope: 'openid profile'
+    scope: 'openid profile email'
   });
 
   constructor(public router: Router) {
     this.profile = JSON.parse(localStorage.getItem('profile'));
+
+    var token = localStorage.getItem('access_token');
+
+    if(token) {
+      var decodedToken = this.jwtHelper.decodeToken(token);
+      this.roles = decodedToken['https://bdeliv.com/roles'];
+    }
   }
 
   public login(): void {
@@ -42,9 +58,13 @@ export class AuthService {
   private setSession(authResult): void {
     // Set the time that the access token will expire at
     const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
+    
     localStorage.setItem('access_token', authResult.accessToken);
     //localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
+
+    var decodedToken = this.jwtHelper.decodeToken(authResult.accessToken);
+    this.roles = decodedToken['https://bdeliv.com/roles'];
 
     this.auth0.client.userInfo(authResult.accessToken, (err, profile) => {
       if(err)
@@ -62,6 +82,7 @@ export class AuthService {
     localStorage.removeItem('expires_at');
     localStorage.removeItem('profile');
     this.profile = null;
+    this.roles = [];
     // Go back to the home route
     this.router.navigate(['/']);
   }

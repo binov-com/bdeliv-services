@@ -24,6 +24,7 @@ import { PhotoService } from "./services/photo.service";
 import { BrowserXhrWithProgress, ProgressService } from "./services/progress.service";
 import { BrowserXhr } from "@angular/http";
 import { AuthService } from "./services/auth.service";
+import { AdminComponent } from "./components/admin/admin.component";
 
 // Config sentry.io //
 Raven
@@ -41,7 +42,8 @@ Raven
         ProductFormComponent,
         ProductListComponent,
         PaginationComponent,
-        ViewProductComponent
+        ViewProductComponent,
+        AdminComponent
     ],
     imports: [
         FormsModule,
@@ -53,6 +55,7 @@ Raven
             { path: 'products/edit/:id', component: ProductFormComponent },          
             { path: 'products/:id', component: ViewProductComponent },
             { path: 'products', component: ProductListComponent },
+            { path: 'admin', component: AdminComponent },
             { path: 'home', component: HomeComponent },
             { path: 'counter', component: CounterComponent },
             { path: 'fetch-data', component: FetchDataComponent },
