@@ -27,6 +27,7 @@ import { AuthService } from "./services/auth.service";
 import { AdminComponent } from "./components/admin/admin.component";
 import { AuthGuardService } from "./services/auth-guard.service";
 import { AdminAuthGuardService } from "./services/admin-auth-guard.service";
+import { AUTH_PROVIDERS } from "angular2-jwt/angular2-jwt";
 
 // Config sentry.io //
 Raven
@@ -68,11 +69,12 @@ Raven
         { provide: ErrorHandler, useClass: AppErrorHandler },
         { provide: BrowserXhr, useClass: BrowserXhrWithProgress },
         AuthService,
+        AuthGuardService,
+        AUTH_PROVIDERS,
+        AdminAuthGuardService,
         ProductService, 
         PhotoService,
-        ProgressService,
-        AuthGuardService,
-        AdminAuthGuardService
+        ProgressService
     ]
 })
 export class AppModule {

@@ -48,7 +48,7 @@ export class AuthService {
 
     console.log(authResult);
 
-    localStorage.setItem('access_token', authResult.accessToken);
+    localStorage.setItem('token', authResult.accessToken);
     localStorage.setItem('expires_at', expiresAt);
 
     this.auth0.client.userInfo(authResult.accessToken, (err, profile) => {
@@ -63,7 +63,7 @@ export class AuthService {
 
   public logout(): void {
     // Remove tokens and expiry time from localStorage
-    localStorage.removeItem('access_token');
+    localStorage.removeItem('token');
     localStorage.removeItem('expires_at');
     localStorage.removeItem('profile');
     this.profile = null;
@@ -82,7 +82,7 @@ export class AuthService {
   private readUserFromLocalStorage() {
     this.profile = JSON.parse(localStorage.getItem('profile'));
 
-    var token = localStorage.getItem('access_token');
+    var token = localStorage.getItem('token');
     if(token) {
       var jwtHelper = new JwtHelper();
       var decodedToken = jwtHelper.decodeToken(token);

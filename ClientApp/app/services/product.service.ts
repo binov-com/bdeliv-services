@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { SaveProduct } from "../models/save-product";
+import { AuthHttp } from "angular2-jwt/angular2-jwt";
 
 @Injectable()
 export class ProductService {
   private readonly productsEndpoint = 'api/products';
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private authHttp: AuthHttp) { }
 
   getCategories() {
     return this.http.get('api/categories')
@@ -25,17 +26,17 @@ export class ProductService {
   }
 
   create(product) {
-    return this.http.post(this.productsEndpoint, product)
+    return this.authHttp.post(this.productsEndpoint, product)
       .map(res => res.json());
   }
 
   update(product: SaveProduct) {
-    return this.http.put(this.productsEndpoint + '/' + product.id, product)
+    return this.authHttp.put(this.productsEndpoint + '/' + product.id, product)
       .map(res => res.json());
   }
 
   delete(id: number) {
-    return this.http.delete(this.productsEndpoint + '/' + id)
+    return this.authHttp.delete(this.productsEndpoint + '/' + id)
       .map(res => res.json());
   }
 
