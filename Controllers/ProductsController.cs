@@ -24,7 +24,7 @@ namespace bdeliv_services.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Policies.RequireAdminRole)]
         public async Task<IActionResult> CreateProduct([FromBody] SaveProductResource productResource)
         {
             if (!ModelState.IsValid)

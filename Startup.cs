@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using AutoMapper;
 using bdeliv_services.Core;
 using bdeliv_services.Models;
+using bdeliv_services.Controllers;
 
 namespace WebApplicationBasic
 {
@@ -45,6 +46,11 @@ namespace WebApplicationBasic
             (
                 options => options.UseSqlServer(Configuration.GetConnectionString("Default"))
             );
+
+            services.AddAuthorization(options => {
+                options.AddPolicy(Policies.RequireAdminRole, policy => policy.RequireClaim("https://bdeliv.com/roles", "Admin"));
+            });
+
             // Add framework services.
             services.AddMvc();
         }
