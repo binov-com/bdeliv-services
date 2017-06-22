@@ -11,8 +11,6 @@ export class AuthService {
   profile: any;
   private roles: string[] = [];
 
-  //jwtHelper: JwtHelper = new JwtHelper();
-
   auth0 = new auth0.WebAuth({
     clientID: 'MgNB9xdWAs06k31QJq8gjEv2Xe06WoYH',
     domain: 'bdeliv.auth0.com',
@@ -47,13 +45,14 @@ export class AuthService {
   private setSession(authResult): void {
     // Set the time that the access token will expire at
     const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
-    
+
+    console.log(authResult);
+
     localStorage.setItem('access_token', authResult.accessToken);
-    //localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
 
     this.auth0.client.userInfo(authResult.accessToken, (err, profile) => {
-      if(err)
+      if(err) 
         throw err;
       
       localStorage.setItem('profile', JSON.stringify(profile));
@@ -65,7 +64,6 @@ export class AuthService {
   public logout(): void {
     // Remove tokens and expiry time from localStorage
     localStorage.removeItem('access_token');
-    //localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
     localStorage.removeItem('profile');
     this.profile = null;

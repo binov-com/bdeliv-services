@@ -25,6 +25,8 @@ import { BrowserXhrWithProgress, ProgressService } from "./services/progress.ser
 import { BrowserXhr } from "@angular/http";
 import { AuthService } from "./services/auth.service";
 import { AdminComponent } from "./components/admin/admin.component";
+import { AuthGuardService } from "./services/auth-guard.service";
+import { AdminAuthGuardService } from "./services/admin-auth-guard.service";
 
 // Config sentry.io //
 Raven
@@ -55,7 +57,7 @@ Raven
             { path: 'products/edit/:id', component: ProductFormComponent },          
             { path: 'products/:id', component: ViewProductComponent },
             { path: 'products', component: ProductListComponent },
-            { path: 'admin', component: AdminComponent },
+            { path: 'admin', component: AdminComponent, canActivate: [ AdminAuthGuardService ] },
             { path: 'home', component: HomeComponent },
             { path: 'counter', component: CounterComponent },
             { path: 'fetch-data', component: FetchDataComponent },
@@ -68,7 +70,9 @@ Raven
         AuthService,
         ProductService, 
         PhotoService,
-        ProgressService
+        ProgressService,
+        AuthGuardService,
+        AdminAuthGuardService
     ]
 })
 export class AppModule {
