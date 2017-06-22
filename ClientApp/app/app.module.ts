@@ -67,14 +67,12 @@ Raven
     ],
     providers: [
         { provide: ErrorHandler, useClass: AppErrorHandler },
-        { provide: BrowserXhr, useClass: BrowserXhrWithProgress },
         AuthService,
         AuthGuardService,
         AUTH_PROVIDERS,
         AdminAuthGuardService,
         ProductService, 
-        PhotoService,
-        ProgressService
+        PhotoService
     ]
 })
 export class AppModule {

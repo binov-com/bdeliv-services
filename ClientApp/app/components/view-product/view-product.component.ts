@@ -3,12 +3,17 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { ProductService } from "../../services/product.service";
 import { ToastyService } from "ng2-toasty";
 import { PhotoService } from "../../services/photo.service";
-import { ProgressService } from "../../services/progress.service";
+import { ProgressService, BrowserXhrWithProgress } from "../../services/progress.service";
+import { BrowserXhr } from "@angular/http";
 
 @Component({
   selector: 'app-view-product',
   templateUrl: './view-product.component.html',
-  styleUrls: ['./view-product.component.css']
+  styleUrls: ['./view-product.component.css'],
+  providers: [
+    { provide: BrowserXhr, useClass: BrowserXhrWithProgress },
+    ProgressService
+  ]
 })
 export class ViewProductComponent implements OnInit {
   @ViewChild('fileInput') fileInput: ElementRef;
