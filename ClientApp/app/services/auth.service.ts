@@ -11,11 +11,7 @@ export class AuthService {
   profile: any;
   private roles: string[] = [];
 
-  jwtHelper: JwtHelper = new JwtHelper();
-
-  public isInRole(roleName) {
-    return this.roles.indexOf(roleName) > -1;
-  }
+  //jwtHelper: JwtHelper = new JwtHelper();
 
   auth0 = new auth0.WebAuth({
     clientID: 'MgNB9xdWAs06k31QJq8gjEv2Xe06WoYH',
@@ -28,14 +24,7 @@ export class AuthService {
   });
 
   constructor(public router: Router) {
-    this.profile = JSON.parse(localStorage.getItem('profile'));
-
-    var token = localStorage.getItem('access_token');
-
-    if(token) {
-      var decodedToken = this.jwtHelper.decodeToken(token);
-      this.roles = decodedToken['https://bdeliv.com/roles'];
-    }
+    this.readUserFromLocalStorage();
   }
 
   public login(): void {
@@ -63,15 +52,13 @@ export class AuthService {
     //localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
 
-    var decodedToken = this.jwtHelper.decodeToken(authResult.accessToken);
-    this.roles = decodedToken['https://bdeliv.com/roles'];
-
     this.auth0.client.userInfo(authResult.accessToken, (err, profile) => {
       if(err)
         throw err;
       
       localStorage.setItem('profile', JSON.stringify(profile));
-      this.profile = profile;
+
+      this.readUserFromLocalStorage();
     });
   }
 
@@ -92,6 +79,21 @@ export class AuthService {
     // access token's expiry time
     const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     return new Date().getTime() < expiresAt;
+  }
+
+  private readUserFromLocalStorage() {
+    this.profile = JSON.parse(localStorage.getItem('profile'));
+
+    var token = localStorage.getItem('access_token');
+    if(token) {
+      var jwtHelper = new JwtHelper();
+      var decodedToken = jwtHelper.decodeToken(token);
+      this.roles = decodedToken['https://bdeliv.com/roles'];
+    }
+  }
+
+  public isInRole(roleName) {
+    return this.roles.indexOf(roleName) > -1;
   }
 
 }
