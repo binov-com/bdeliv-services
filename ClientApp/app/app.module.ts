@@ -54,8 +54,8 @@ Raven
         UniversalModule, // Must be first import. This automatically imports BrowserModule, HttpModule, and JsonpModule too.
         RouterModule.forRoot([
             { path: '', redirectTo: 'home', pathMatch: 'full' },
-            { path: 'products/new', component: ProductFormComponent },
-            { path: 'products/edit/:id', component: ProductFormComponent },          
+            { path: 'products/new', component: ProductFormComponent, canActivate: [ AuthGuardService ] },
+            { path: 'products/edit/:id', component: ProductFormComponent, canActivate: [ AuthGuardService ] },          
             { path: 'products/:id', component: ViewProductComponent },
             { path: 'products', component: ProductListComponent },
             { path: 'admin', component: AdminComponent, canActivate: [ AdminAuthGuardService ] },

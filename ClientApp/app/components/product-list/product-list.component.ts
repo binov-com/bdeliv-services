@@ -3,6 +3,7 @@ import { ProductService } from "../../services/product.service";
 
 import { Product } from "../../models/product";
 import { Category } from "../../models/category";
+import { AuthService } from "../../services/auth.service";
 
 @Component({
   selector: 'app-product-list',
@@ -26,7 +27,7 @@ export class ProductListComponent implements OnInit {
     { title: 'Libellé', key: 'name', isSortable: true },
   ];
   
-  constructor(private productService: ProductService) { }
+  constructor(private productService: ProductService, private auth: AuthService) { }
 
   ngOnInit() {
     this.productService.getCategories()

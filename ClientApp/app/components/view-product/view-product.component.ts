@@ -5,6 +5,7 @@ import { ToastyService } from "ng2-toasty";
 import { PhotoService } from "../../services/photo.service";
 import { ProgressService, BrowserXhrWithProgress } from "../../services/progress.service";
 import { BrowserXhr } from "@angular/http";
+import { AuthService } from "../../services/auth.service";
 
 @Component({
   selector: 'app-view-product',
@@ -23,6 +24,7 @@ export class ViewProductComponent implements OnInit {
   progress: any;
  
   constructor(
+    private auth: AuthService,
     private zone: NgZone,
     private route: ActivatedRoute,
     private router: Router, // redirect to home when "id" isn't exist //

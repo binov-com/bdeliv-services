@@ -69,7 +69,7 @@ export class AuthService {
     this.profile = null;
     this.roles = [];
     // Go back to the home route
-    this.router.navigate(['/']);
+    // this.router.navigate(['/']);
   }
 
   public isAuthenticated(): boolean {
