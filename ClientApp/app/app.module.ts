@@ -5,6 +5,7 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ToastyModule } from 'ng2-toasty';
 import { UniversalModule } from 'angular2-universal';
+import { ChartModule } from 'angular2-chartjs';
 
 // Components //
 import { AppComponent } from './components/app/app.component'
@@ -49,9 +50,10 @@ Raven
         AdminComponent
     ],
     imports: [
+        UniversalModule, // Must be first import. This automatically imports BrowserModule, HttpModule, and JsonpModule too.
         FormsModule,
         ToastyModule.forRoot(),
-        UniversalModule, // Must be first import. This automatically imports BrowserModule, HttpModule, and JsonpModule too.
+        ChartModule,
         RouterModule.forRoot([
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'products/new', component: ProductFormComponent, canActivate: [ AuthGuardService ] },
