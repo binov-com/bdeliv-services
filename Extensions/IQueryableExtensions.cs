@@ -8,6 +8,7 @@ namespace bdeliv_services.Extensions
 {
     public static class IQueryableExtensions
     {
+
         public static IQueryable<T> ApplyOrdering<T>(this IQueryable<T> query, IQueryObject queryObj, Dictionary<string, Expression<Func<T, object>>> columnsMap) 
         {
             if(String.IsNullOrWhiteSpace(queryObj.SortBy) || !columnsMap.ContainsKey(queryObj.SortBy))
@@ -26,6 +27,17 @@ namespace bdeliv_services.Extensions
             if(queryObj.PageSize < 1) queryObj.PageSize = 10;
 
             return query.Skip((queryObj.Page - 1) * queryObj.PageSize).Take(queryObj.PageSize);
+        }
+
+        public static IQueryable<Product> ApplyFiltering(this IQueryable<Product> query, ProductQuery queryObj) {
+            
+            if(queryObj.CategoryId.HasValue)
+                query = query.Where(p => p.CategoryId == queryObj.CategoryId.Value); // .Value because CategoryId is Nullable (int?)
+
+            if(queryObj.Name != null && queryObj.Name != "")
+                query = query.Where(p => p.Name.Contains(queryObj.Name));
+            
+            return query;
         }
     }
 }

@@ -24,15 +24,9 @@ namespace bdeliv_services.Persistence
 
             var query = context.Products
                 .Include(p => p.Category)
-                .Include(p => p.Tags)
-                    .ThenInclude(pt => pt.Tag)
                 .AsQueryable();
             
-            if(queryObj.CategoryId.HasValue)
-                query = query.Where(p => p.CategoryId == queryObj.CategoryId.Value); // .Value because CategoryId is Nullable (int?)
-
-            if(queryObj.Name != null && queryObj.Name != "")
-                query = query.Where(p => p.Name.Contains(queryObj.Name));
+            query = query.ApplyFiltering(queryObj);
 
             var columnsMap = new Dictionary<string, Expression<Func<Product, object>>>()
             { 
@@ -40,7 +34,6 @@ namespace bdeliv_services.Persistence
                 ["reference"] = p => p.Reference,        // columnsMap.Add("reference", p => p.Reference);
                 ["name"] = p => p.Name                   // columnsMap.Add("name", p => p.Name);
             };
-
             query = query.ApplyOrdering(queryObj, columnsMap);
 
             result.TotalItems = await query.CountAsync();
