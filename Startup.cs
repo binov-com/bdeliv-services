@@ -40,7 +40,8 @@ namespace WebApplicationBasic
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IPhotoRepository, PhotoRepository>();
             services.AddTransient<IPhotoService, PhotoService>();
-
+            services.AddTransient<IPhotoStorage, FileSystemPhotoStorage>();
+            
             services.AddAutoMapper();
 
             services.AddDbContext<BdelivDbContext>
